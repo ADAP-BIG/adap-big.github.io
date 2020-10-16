@@ -5,6 +5,6 @@
 layout: home
 ---
 
-# About ADAP-BIG
+## About ADAP-BIG
 
 {{ site.description }}
