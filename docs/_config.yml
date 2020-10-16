@@ -23,14 +23,21 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "adap-big.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
 github_username:  adap-big
-logo: docs/assets/logo.png
+logo: assets/logo.png
 
 # Build settings
 markdown: kramdown
 theme: minima
-minima: dark
+minima: 
+  skin: dark
 plugins:
   - jekyll-feed
+
+header_pages:
+  - index.md
+  - download.md
+  - screenshots.md
+  - support.md
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

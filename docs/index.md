@@ -4,7 +4,7 @@
 
 layout: home
 title: About
-permalink: /
+first: true
 ---
 
 {{ site.description }}
