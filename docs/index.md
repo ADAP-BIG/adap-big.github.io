@@ -5,4 +5,6 @@
 layout: home
 ---
 
-![ADAP-BIG Logo](assets/logo.png) | {{ site.description }}
+# About ADAP-BIG
+
+{{ site.description }}

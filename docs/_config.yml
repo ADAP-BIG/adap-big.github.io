@@ -16,17 +16,19 @@
 title: ADAP-BIG
 email: adap.helpdesk@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  ADAP-BIG is a free software for processing raw mass spectrometry data. 
+  It provides several workflows for processing gas chromatography (GC-MS) and
+  liquid chromatography (LC-MS) data.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
+url: "adap-big.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+# twitter_username: jekyllrb
 github_username:  adap-big
+logo: docs/assets/logo.png
 
 # Build settings
 markdown: kramdown
 theme: minima
+minima: dark
 plugins:
   - jekyll-feed
 
