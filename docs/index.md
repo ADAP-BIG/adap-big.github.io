@@ -3,8 +3,8 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+title: About
+permalink: /
 ---
-
-## About ADAP-BIG
 
 {{ site.description }}
