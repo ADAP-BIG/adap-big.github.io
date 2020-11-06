@@ -1,8 +1,8 @@
 ---
 layout: default
-img: ipad.png
+img: adap-big.png
 category: Services
-title: Death to the Stock Photo:<br>Special Thanks
+title: GUI to thoroughly assess all steps of a computational workflow
 description: |
 ---
-  A special thanks to [Death to the Stock Photo](http://join.deathtothestockphoto.com/) for providing the photographs that you see in this template.  Visit their website to become a member!
+  Each step of a computational workflow provides visualization capabilities that help analyse the results of that workflow step and adjust its parameters.

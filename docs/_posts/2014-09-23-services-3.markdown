@@ -1,8 +1,9 @@
 ---
 layout: default
-img: phones.png
+img: volcano-plot.png
 category: Services
-title: Google Web Fonts and<br>Font Awesome Icons
+title: Statistical Analysis
 description: |
 ---
-This template features the 'Lato' font, part of the [Google Web Font library](http://www.google.com/fonts), as well as [icons from Font Awesome](http://fontawesome.io).
+ADAP-BIG let users to perform the ANOVA significance tests and plot volcano 
+plots without using third-party software.

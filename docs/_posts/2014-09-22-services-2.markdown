@@ -1,10 +1,12 @@
 ---
 layout: default
-img: dog.png
+img: modularization.png
 category: Services
-title: 3D Device Mockups<br>by PSDCovers
+title: Modularization
 description: |
 ---
-  Turn your 2D designs into high quality, 3D
-  product shots in seconds using free Photoshop actions by [PSDCovers](http://www.psdcovers.com/)! Visit
-  their website to download some of their awesome, free photoshop actions!
+  Each workflow step reads data from a disk, is executed in a separate process, 
+  and writes data back to the disk, releasing system resources immediately
+  after its completion. Such modularization allows processing unlimited
+  number of samples even on machines with low amount of RAM (see system 
+  requirements below). 
