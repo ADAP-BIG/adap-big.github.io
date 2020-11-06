@@ -1,8 +1,0 @@
----
-layout: default
-img: Picture1.png
-category: Services
-title: Statistical Analysis
-description: |
----
-ADAP-BIG test
