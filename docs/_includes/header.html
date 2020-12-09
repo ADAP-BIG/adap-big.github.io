@@ -48,15 +48,26 @@
 						<h1>{{ page.title }}</h1>
 						<h3>{{ page.subTitle }}</h3>
 						<hr class="intro-divider">
-						<ul class="list-inline intro-social-buttons">
-							{% for social in site.social %}
-							<li>
-								<a href="{{ social.url }}" target="_blank" class="btn btn-default btn-lg">
-                                    <i class="fa fa-{{ social.icon }} fa-fw"></i> 
-                                    <span class="network-name">{{ social.title }}</span></a>
-							</li>
-							{% endfor %}
-						</ul>
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="{{ site.feedback }}" target="_blank" class="btn btn-default btn-lg">
+                                    <i class="fa fa-comment fa-fw"></i>
+                                    <span class="network-name">Leave Feedback</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ site.github-issues }}" target="_blank" class="btn btn-default btn-lg">
+                                    <i class="fa fa-github fa-fw"></i>
+                                    <span class="network-name">Report Issue</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:{{ site.email }}" target="_blank" class="btn btn-default btn-lg">
+                                    <i class="fa fa-envelope fa-fw"></i>
+                                    <span class="network-name">{{ site.email }}</span>
+                                </a>
+                            </li>
+                        </ul>
 					</div>
 				</div>
 			</div>
