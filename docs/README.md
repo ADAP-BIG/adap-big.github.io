@@ -1,35 +1,11 @@
-# Landing Page Jekyll theme
+# ADAP-BIG
 
-Jekyll theme based on [landing-page bootstrap theme ](http://startbootstrap.com/templates/landing-page/)
+ADAP-BIG is a free cross-platform software for processing raw untargeted mass spectrometry data, designed to handle large numbers of samples on machines with minimal system requirements. Users can choose between two workflows for processing liquid chromatography (LC-) and gas chromatography-mass spectrometry (GC-MS) data. The graphical user interface allows users to visualize the raw data and intermediate results along each step of the data processing.
 
 ## How to use
- - Place a image in `/img/services/`
- - Create posts to display your services. Use the follow as an example:
+ - Use one of the Windows, Mac, or Linux installation packages to install ADAP-BIG on your system
+ - Launch ADAP-BIG App and click "Create a new project"
+ - Follow this [tutorial](https://adap-big.github.io/img/user-manual.pdf) to process MS data
 
-```txt
----
-layout: default
-img: ipad.png
-category: Services
-title: The service title
----
-The description of this service
-```
-
-## Demo
-View this jekyll theme in action [here](https://swcool.github.io/landing-page-theme)
-
-## Screenshot
-![screenshot](https://raw.githubusercontent.com/swcool/landing-page-theme/master/img/screenshot.png)
-
-===
-
-For more Jekyll details, read [documentation](http://jekyllrb.com/).
-This Jekyll theme used [Freelancer Jekyll theme](https://github.com/jeromelachaud/freelancer-theme/) as reference.
-
-## License
-The contents of this repository are licensed under the [Apache
-2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
-
-## Version
-1.0.1
+## Releases and Change Log
+[https://github.com/ADAP-BIG/adap-big.github.io/releases](https://github.com/ADAP-BIG/adap-big.github.io/releases)
