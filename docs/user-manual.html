@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="pandoc" name="generator"/>
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+    <meta content="Du-lab Team Department of Bioinformatics and Genomics University of North Carolina at Charlotte dulab.binf@gmail.com http://www.dulab.org"
+          name="author"/>
+    <title>ADAP-BIG v1.6.0 User Manual</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/manual-page.css">
+</head>
+<body>
+    <nav id="sidebar">
+        <ul>
+            <li><a href="/">Home Page</a></li>
+            <li><a href="#introduction">Introduction</a></li>
+            <li class="subsection"><a href="#adap-informatics-ecosystem">ADAP Informatics Ecosystem</a></li>
+            <li class="subsection"><a href="#download-and-installation">Download and Installation</a></li>
+            <li class="subsection"><a href="#user-interface">User Interface</a></li>
+            <li class="subsection"><a href="#performance-and-system-requirements">Performance and System
+                Requirements</a></li>
+            <li class="subsection"><a href="#providing-feedback-and-reporting-errors">Providing Feedback and
+                Reporting Errors</a></li>
+            <li><a href="#processing-raw-ms-data-with-adap-big">Processing Raw MS Data
+                with ADAP-BIG</a></li>
+            <li class="subsection"><a href="#supported-raw-data">Supported Raw Data</a></li>
+            <li class="subsection"><a href="#section:new_project">Creating a New Project</a></li>
+            <li class="subsection"><a href="#section:workflows">Processing Raw MS Data</a></li>
+            <li class="subsection"><a href="#section:parameters_window">Processing Parameters and
+                Metadata</a></li>
+            <li class="subsection"><a href="#viewingexporting-results">Viewing/Exporting Results</a></li>
+            <li class="subsection"><a href="#section:console_app">Running ADAP-BIG in Terminal and on
+                Cluster</a></li>
+            <li><a href="#chapter:workflows">Processing Workflows</a></li>
+            <li class="subsection"><a href="#section:gcms-workflow">GC-MS Workflow</a></li>
+            <li class="subsection"><a href="#section:lcms-workflow">LC-MS/MS Workflow</a></li>
+            <li class="subsection"><a href="#section:multi-batch-lcms-workflow">Multi-batch LC-MS/MS
+                Workflow</a></li>
+            <li class="subsection"><a href="#section:customizing_workflows">Customizing Workflows</a></li>
+            <li><a href="#chapter:single-batch-processing-steps">Single-batch Processing
+                Steps</a></li>
+            <li class="subsection"><a href="#section:gcms_input">Input</a></li>
+            <li class="subsection"><a href="#section:gcms_chromatogram_builder">Chromatogram Builder</a></li>
+            <li class="subsection"><a href="#section:gcms_peak_detection">Peak Detection</a></li>
+            <li class="subsection"><a href="#section:lcms_ms2_pairing">MS/MS Pairing (LC-MS)</a></li>
+            <li class="subsection"><a href="#section:gcms_spectral_deconvolution">Spectral Deconvolution
+                (GC-MS)</a></li>
+            <li class="subsection"><a href="#section:gcms_alignment">Alignment (GC-MS)</a></li>
+            <li class="subsection"><a href="#section:lcms_alignment">Alignment (LC-MS)</a></li>
+            <li class="subsection"><a href="#section:background_removal">Background Removal</a></li>
+            <li class="subsection"><a href="#section:normalization">Normalization</a></li>
+            <li class="subsection"><a href="#section:pool_rsd_filter">Pool RSD Filter</a></li>
+            <li><a href="#chapter:multi-batch-processing-steps">Multi-batch Processing
+                Steps</a></li>
+            <li class="subsection"><a href="#section:multi_batch_alignment">Between-batch Alignment</a></li>
+            <li class="subsection"><a href="#multi-batch-normalization">Multi-Batch Normalization</a></li>
+            <li class="subsection"><a href="#section:batch_effect_correction">Batch-effect Correction</a></li>
+            <li class="subsection"><a href="#section:anova_batch_effect_correction">ANOVA Batch-effect
+                Correction</a></li>
+            <li class="subsection"><a href="#section:multi_batch_pool_rsd_filter">Multi-batch Pool RSD
+                Filter</a></li>
+            <li><a href="#chapter:post-processing-steps">Post-processing Steps</a></li>
+            <li class="subsection"><a href="#section:anova_test">One-way ANOVA Test</a></li>
+            <li class="subsection"><a href="#section:dimensionality_reduction">Dimenstionality Reduction</a></li>
+            <li class="subsection"><a href="#section:library_search">Library Search</a></li>
+            <li><a href="#chapter:advanced">Advanced Functionality</a></li>
+            <li class="subsection"><a href="#section:jars">Running individual steps in the command line</a></li>
+            <li class="subsection"><a href="#section:workflow.xml">Editing the workflow.xml
+                file</a></li>
+            <li class="subsection"><a href="#section:settings.xml">Editing the settings.xml
+                file</a></li>
+        </ul>
+    </nav>
+    <main>
+        <header id="title-block-header">
+            <h1 class="title">ADAP-BIG v1.6.0 User Manual</h1>
+            <p class="author">Du-lab Team<br/>
+                Department of Bioinformatics and Genomics<br/>
+                University of North Carolina at Charlotte<br/>
+                <u>dulab.binf@gmail.com</u><br/>
+                <a href="http://www.dulab.org">http://www.dulab.org</a></p>
+        </header>
+        <h1 id="introduction">Introduction</h1>
+        <h2 id="adap-informatics-ecosystem">ADAP Informatics Ecosystem</h2>
+        <figure id="fig:adap_ecosystem">
+            <img src="img/user-manual/fig/adap_ecosystem.png" style="width:80.0%"/>
+            <figcaption>ADAP Informatics Ecosystem for processing and analyzing mass
+                spectrometry data.
+            </figcaption>
+        </figure>
+        <p>ADAP-BIG is a part of the ADAP informatics ecosystem, a collection of
+            software tools for processing and analyzing mass spectrometry data. The
+            ADAP informatics ecosystem consists of the following software tools
+            (Figure <a data-reference="fig:adap_ecosystem" data-reference-type="ref" href="#fig:adap_ecosystem">1.1</a>):
+        </p>
+        <div class="itemize*">
+            <p><strong>ADAP-BIG</strong> is a software tool for processing raw gas
+                chromatography (GC-) and liquid chromatography coupled to mass
+                spectrometry (LC-MS) data. It can produce a CSV file with the detected
+                features, their retention times and intensities, and an MSP file with
+                spectra of the detected features.</p>
+            <p><strong>ADAP-Analytics</strong> is a software tool for analyzing the
+                processed data from ADAP-BIG. It can perform statistical tests, such as
+                ANOVA, PCA, and PLS-DA. Currently, ADAP-Analytics is accessible through
+                ADAP-BIG only (see Chapter <a data-reference="chapter:post-processing-steps" data-reference-type="ref"
+                                              href="#chapter:post-processing-steps">6</a>).</p>
+            <p><strong>ADAP-KDB</strong> is a web application for compound
+                identification, annotations, and prioritization. The spectra of the
+                detected features from ADAP-BIG can be uploaded to ADAP-KDB (<a
+                        href="https://adap.cloud">https://adap.cloud</a>) to perform library
+                matching against publicly available and user-provided private spectral
+                libraries.</p>
+            <p><strong>MetaboFood + ADAP-Exposome</strong> is a web resource for
+                biological interpretation of metabolomics data. This resource is
+                currently under development and will be available in the future.</p>
+        </div>
+        <p>The ADAP informatics ecosystem is designed to provide a comprehensive
+            solution for processing, analyzing, and interpreting mass spectrometry
+            data. The ecosystem is developed by the Du-lab team at the University of
+            North Carolina at Charlotte in collaboration with other research groups
+            from University of North Carolina at Chapel Hill and University of
+            Arkansas for Medical Sciences. For more information about the ADAP
+            informatics ecosystem, please visit the Du-lab website at <a
+                    href="http://www.dulab.org">http://www.dulab.org</a>.</p>
+        <p>ADAP-BIG is free software designed to handle a large number of
+            samples on machines with minimal system requirements. It features a
+            user-friendly graphical interface that provides visualization of raw
+            data and intermediate results for each step of the data processing. The
+            software is cross-platform and can be used on Windows, Mac OS, and
+            Linux. Although ADAP-BIG is a part of the ADAP informatics ecosystem, it
+            can be used as a standalone software tool for processing raw untargeted
+            mass spectrometry data. Users can import raw data files, process them
+            using one of the available workflows, and export the processing results
+            to CSV and MSP files for further analysis. The exported feature tables
+            and spectra can be imported into ADAP-KDB or other third-party software
+            tools for compound identification and/or statistical analysis.</p>
+        <h2 id="download-and-installation">Download and Installation</h2>
+        <p>ADAP-BIG is a cross-platform desktop application, that can be used on
+            Windows, Mac OS, and Linux. Users can download a platform-specific
+            installation package to easily install the application on their
+            workstations. To download the installation package for your platform,
+            please visit the <a href="https://github.com/ADAP-BIG/adap-big.github.io/releases/latest">GitHub
+                Release page</a>. Table <a data-reference="tab:releases" data-reference-type="ref"
+                                           href="#tab:releases">1.1</a> provides
+            the list of files available for download.</p>
+        <div id="tab:releases">
+            <table>
+                <caption>List of the installation files available at the <a
+                        href="https://github.com/ADAP-BIG/adap-big.github.io/releases/latest">GitHub
+                    Release page</a>.
+                </caption>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">File</th>
+                    <th style="text-align: left;">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: center;">Adap-Big App-x.x.x.exe</td>
+                    <td style="text-align: left;">Installation package that installs
+                        ADAP-BIG application on Windows.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Adap-Big App-x.x.x.pkg</td>
+                    <td style="text-align: left;">Installation package that installs
+                        ADAP-BIG application on Mac OS.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">adap-big-app_x.x.x-1_amd64.deb</td>
+                    <td style="text-align: left;">Installation package that installs
+                        ADAP-BIG application on Linux (Ubuntu).
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">adap-big-app_x.x.x-1_amd64.rpm</td>
+                    <td style="text-align: left;">Installation package that installs
+                        ADAP-BIG application on Linux (CentOS).
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">adap-big-console-app-x.x.x.jar</td>
+                    <td style="text-align: left;">Console application to run ADAP-BIG in a
+                        terminal (Require Java 9+).
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">adap-big-jar-files-x.x.x.zip</td>
+                    <td style="text-align: left;">Collection of individual jar files for
+                        each workflow step (Require Java 9+).
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 id="installation-of-adap-big-on-windows.">Installation of ADAP-BIG
+            on Windows.</h5>
+        <ol>
+            <li><p>Download file <strong>Adap-Big App-x.x.x.exe</strong> from the <a
+                    href="https://github.com/ADAP-BIG/adap-big.github.io/releases/latest">GitHub
+                Release page</a>.</p></li>
+            <li><p>Start the installation process by double-clicking on the
+                downloaded file.</p></li>
+            <li><p>If you get the message that Microsoft Defender prevented an
+                unrecognized app from starting, please click “More info” and “Run
+                anyway”to continue. If you do not see the “More info” button, please
+                contact your system administrator to allow the installation of the
+                application.</p></li>
+            <li><p>Run ADAP-BIG by clicking the Windows Start Button and selecting
+                the ADAP-BIG application.</p></li>
+        </ol>
+        <figure>
+            <img src="img/user-manual/fig/windows_install.png" style="height:40.0%"/>
+            <figcaption>Installing ADAP-BIG on Windows</figcaption>
+        </figure>
+        <h5 id="installation-of-adap-big-on-mac-os">Installation of ADAP-BIG on
+            Mac OS</h5>
+        <ol>
+            <li><p>Download file <strong>Adap-Big App-x.x.x.pkg</strong> from the <a
+                    href="https://github.com/ADAP-BIG/adap-big.github.io/releases/latest">GitHub
+                Release page</a>.</p></li>
+            <li><p>Start the installation process by double-clicking on the
+                downloaded file.</p></li>
+            <li><p>If you get the message that the application cannot be opened
+                because it is from an unidentified developer, go to System
+                Settings/Privacy and Security, find the line with <strong>Adap-Big
+                    App-x.x.x.pkg</strong>, and click "Open Anyway." If this option is not
+                available, please contact your system administrator to allow the
+                installation of the application.</p></li>
+            <li><p>Run ADAP-BIG from the Launchpad or the Applications folder in
+                Finder.</p></li>
+        </ol>
+        <h5 id="installation-of-adap-big-on-linux">Installation of ADAP-BIG on
+            Linux</h5>
+        <ol>
+            <li><p>Download file <strong>adap-big-app_x.x.x_amd64.deb</strong> (if
+                the Linux system is Debian-based) or file
+                <strong>adap-big-app-x.x.x-1.x86_64.rpm</strong> (if the Linux system is
+                Red-Hat-based) from the <a href="https://github.com/ADAP-BIG/adap-big.github.io/releases/latest">GitHub
+                    Release page</a>.</p></li>
+            <li><p>Start the installation process by double-clicking on the
+                downloaded file. The installation process depends on what Linux system
+                is used, but usually the double-clicking on the downloaded file will
+                open the system package manager, where you will be able to click the
+                “Install” button.</p></li>
+            <li><p>Run ADAP-BIG from the start menu or the applications folder
+                (depending on what Linux system is used).</p></li>
+        </ol>
+        <h2 id="user-interface">User Interface</h2>
+        <figure id="fig:user-interface">
+            <img src="img/user-manual/fig/adap-big.png" style="width:80.0%"/>
+            <figcaption>ADAP-BIG User Interface</figcaption>
+        </figure>
+        <p>User interface of ADAP-BIG is shown on Figure <a data-reference="fig:user-interface" data-reference-type="ref"
+                                                            href="#fig:user-interface">1.2</a> and consists of the main
+            area, project tree (left-hand side of the application window), workflow
+            bar (top of the application window), and progress area (bottom of the
+            application window). When the application is just started, the project
+            tree, workflow bar, and progress area will be empty since no project is
+            currently open in ADAP-BIG, and the main area will show a home page with
+            a contact information and buttons to create a new project or open an
+            existing project.</p>
+        <p>After a project is created or opened in ADAP-BIG, the project tree
+            displays batch names (Batch 1, Batch 2, Batch 3,…), sample names (based
+            on the raw data filenames), and workflow steps (Input, Chromatogram
+            Builder, Peak Detection,…) of that project. Users may need to expand
+            batch and sample items to see their workflow steps in the project tree.
+            Alternatively, users can see all workflow steps in the workflow bar at
+            the top of the application window. All items in the project tree and the
+            workflow bar are color-coded: <strong>black</strong> means that the
+            processing of a specific workflow step on a specific sample is
+            completed, <strong>blue</strong> means that the processing is currently
+            running, <strong>gray</strong> means that the processing has not started
+            yet, and <strong>red</strong> means that the processing resulted in an
+            error. In addition to the color-coded items in the project tree and
+            workflow bar, users can see the currently running workflow step and all
+            queued steps in the progress area at the bottom of the application
+            window.</p>
+        <p>To view the raw data or processing results of a workflow step, users
+            can select a workflow step by clicking one of the items either in the
+            workflow bar or in the project tree. This will open a new tab with the
+            visualization of that workflow step in the main area. See later sections
+            of the manual for more details on visualization of each workflow step.
+            In order to see the final processing results, users just need to select
+            the last step in a workflow. While the project tree and workflow bar are
+            similar in their functionality, the project tree is more detailed and
+            let users view the processing results of a particular step on a
+            particular sample, while the workflow bar let users select only a
+            workflow step but not a sample. However, the workflow bar is much easier
+            to navigate.</p>
+        <p>When a workflow step is performed on each sample individually (e.g.,
+            Chromatogram Builder or Peak Detector), the processing results will be
+            shown only for a single sample. Users can see the name of that sample in
+            the tab header, and that sample will be highlighted in the project tree.
+            Users are advised to wait until a workflow step has finished before
+            viewing its processing results. Otherwise, they will see a message
+            saying that the processing results are not available yet and asking to
+            rerun that workflow step.</p>
+        <h2 id="performance-and-system-requirements">Performance and System
+            Requirements</h2>
+        <p>ADAP-BIG is a Java-based desktop application that can be run on
+            Windows, Mac OS, and Linux. In addition, ADAP-BIG can be run in a
+            terminal and on a high-performance cluster via the console application
+            (see Section <a data-reference="section:console_app" data-reference-type="ref"
+                            href="#section:console_app">2.6</a>). The system requirements
+            for running ADAP-BIG depend on the size of the raw data files, and the
+            number of samples in the project, the workflow used for processing the
+            data, and individual parameters of the workflow steps.</p>
+        <p>In order to demonstrate the system requirements for processing raw
+            mass spectrometry data with ADAP-BIG, we evaluated the performance of
+            ADAP-BIG with three different datasets:</p>
+        <div class="itemize*">
+            <p>1 batch, 88 samples with 8.8 GB of raw data files;</p>
+            <p>15 batches, 1,389 samples with 132 GB of raw data files;</p>
+            <p>51 batches, 5,271 samples with 503 GB of raw data files.</p>
+        </div>
+        <div id="table:number-of-features">
+            <table>
+                <caption>Processing steps of LC-MS/MS workflows and the number of
+                    produced features after each step.
+                </caption>
+                <tbody>
+                <tr>
+                    <td style="text-align: left;"></td>
+                    <td colspan="4" style="text-align: center;"><strong>Number of produced
+                        features</strong></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">1 sample</td>
+                    <td style="text-align: left;">1 batch</td>
+                    <td style="text-align: left;">15 batches</td>
+                    <td style="text-align: left;">51 batches</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><strong>Single-batch steps</strong></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Chromatogram Builder</td>
+                    <td style="text-align: left;">15,555</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Peak Detection</td>
+                    <td style="text-align: left;">84,309</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">MS/MS Pairing</td>
+                    <td style="text-align: left;">84,309</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Join Aligner</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">430,553</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Background Removal</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">36,717</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><strong>Multi-batch steps</strong></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Between Batch Aligner</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">13,821</td>
+                    <td style="text-align: left;">12,542</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Normalization</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">13,821</td>
+                    <td style="text-align: left;">12,542</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Batch Effect Correction</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;">13,821</td>
+                    <td style="text-align: left;">12,542</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Multi-Batch Pool RSD Filter</td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                    <td style="text-align: left;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>For processing these three datasets, we used the single batch
+            LC-MS/MS workflow for Dataset 1 and the multi-batch LC-MS/MS workflow
+            for Datasets 2 and 3 with the default parameters (see Sections <a data-reference="section:lcms-workflow"
+                                                                              data-reference-type="ref"
+                                                                              href="#section:lcms-workflow">3.2</a>, <a
+                    data-reference="section:multi-batch-lcms-workflow" data-reference-type="ref"
+                    href="#section:multi-batch-lcms-workflow">3.3</a> for more
+            details). The processing steps in these workflows are listed in Table <a
+                    data-reference="table:number-of-features" data-reference-type="ref"
+                    href="#table:number-of-features">1.2</a> together with the
+            number of produced features after each step of the workflow. We will
+            discuss how the workflow and the number of produced features affect the
+            processing time and system requirements later in this section.</p>
+        <div id="table:machines">
+            <table>
+                <caption>Machines used for testing ADAP-BIG.</caption>
+                <thead>
+                <tr>
+                    <th style="text-align: left;"></th>
+                    <th style="text-align: left;"><strong>CPU</strong></th>
+                    <th style="text-align: left;"><strong>RAM</strong></th>
+                    <th style="text-align: left;"><strong>Storage</strong></th>
+                    <th style="text-align: left;"><strong>Year</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td rowspan="3" style="text-align: left;"><strong>Laptop</strong></td>
+                    <td style="text-align: left;">Apple M3</td>
+                    <td style="text-align: left;">16 GB</td>
+                    <td style="text-align: left;">1 TB</td>
+                    <td rowspan="3" style="text-align: left;">2024</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">8 cores</td>
+                    <td style="text-align: left;">LPDDR5</td>
+                    <td style="text-align: left;">SSD</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">max. 4.05 GHz</td>
+                    <td style="text-align: left;">3200 MHz</td>
+                    <td style="text-align: left;">max. 7.4 GB/s</td>
+                </tr>
+                <tr>
+                    <td rowspan="3" style="text-align: left;"><strong>Workstation</strong></td>
+                    <td style="text-align: left;">Intel Xeon W-2145</td>
+                    <td style="text-align: left;">64 GB</td>
+                    <td style="text-align: left;">800 GB</td>
+                    <td rowspan="3" style="text-align: left;">2018</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">8 cores</td>
+                    <td style="text-align: left;">DDR4</td>
+                    <td style="text-align: left;">SSD</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">max. 4.50 GHz</td>
+                    <td style="text-align: left;">2666 MHz</td>
+                    <td style="text-align: left;">PCIe 3</td>
+                </tr>
+                <tr>
+                    <td rowspan="3" style="text-align: left;"><strong>Server</strong></td>
+                    <td style="text-align: left;">AMD EPYC 7313P</td>
+                    <td style="text-align: left;">512 GB</td>
+                    <td style="text-align: left;">1 TB</td>
+                    <td rowspan="3" style="text-align: left;">2023</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">16 cores</td>
+                    <td style="text-align: left;">DDR4</td>
+                    <td style="text-align: left;">NVMe</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">max. 3.70 GHz</td>
+                    <td style="text-align: left;">3200 MHz</td>
+                    <td style="text-align: left;">PCIe 4</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Finally, the machines used for testing ADAP-BIG are listed in
+            Table <a data-reference="table:machines" data-reference-type="ref" href="#table:machines">1.3</a>. The first
+            machine is a MacBook
+            with an Apple M3 processor, while the second and third machines are
+            high-performance workstation with Intel Xeon W-2145 and server with AMD
+            EPYC 7313P processor, respectively. The Macbook is the newest generation
+            of Apple laptops (at the moment of writing), while the workstation and
+            server are several years old. Because of these machines are several
+            years apart, the performance between them is not directly comparable.
+            Therefore, readers are encouraged to use the performance results as
+            examples of the processing times and system requirements for different
+            datasets, rather than as a direct comparison of the performance between
+            Apple and Windows, or between laptops, workstations and servers.</p>
+        <div id="table:performance">
+            <table>
+                <caption>The processing times and size of ADAP-BIG projects for Datasets
+                    1, 2, and 3 on different machines.
+                </caption>
+                <thead>
+                <tr>
+                    <th style="text-align: left;"></th>
+                    <th style="text-align: left;"><strong>Laptop</strong></th>
+                    <th style="text-align: left;"><strong>Workstation</strong></th>
+                    <th style="text-align: left;"><strong>Server</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: left;"><strong>Dataset 1</strong></td>
+                    <td style="text-align: left;">39 min</td>
+                    <td style="text-align: left;">46 min</td>
+                    <td style="text-align: left;">33 min</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><strong>Dataset 2</strong></td>
+                    <td style="text-align: left;">13 hours</td>
+                    <td style="text-align: left;">12 hours</td>
+                    <td style="text-align: left;">10 hours</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><strong>Dataset 3</strong></td>
+                    <td style="text-align: left;">2 days, 1 hour</td>
+                    <td style="text-align: left;">1 day, 21 hour</td>
+                    <td style="text-align: left;">1 day, 11 hours</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>The times for ADAP-BIG to process the datasets on different machines
+            are shown in Table <a data-reference="table:performance" data-reference-type="ref"
+                                  href="#table:performance">1.4</a>.
+            The processing time is measured from the moment when the user clicks the
+            “Create” button to create a new project until the moment when the last
+            workflow step is completed. The processing time does not include the
+            time for downloading and installing ADAP-BIG, and converting raw data
+            files into the supported formats.</p>
+        <p>The table shows that the processing time increases with the number of
+            samples and the size of the raw data files. For example, a project with
+            88 samples and 8.8 GB of raw data files takes about 39 minutes to
+            process on the laptop with an Apple M3 processor and 16 GB of RAM. In
+            contrast, a project with 5,271 samples and 503 GB of raw data files
+            takes about 2 days and 1 hour to process on the same machine. The
+            processing time is reduced on machines with more RAM and cores. For
+            example, the server with AMD EPYC 7313P processor and 512 GB of RAM is
+            able to process 51 batches in about 14 hours faster than the laptop,
+            while the workstation with Intel Xeon W-2145 processor and 64 GB of RAM
+            was only 4 hours faster when processing 51 batches.</p>
+        <p>There are multiple factors that affect the performance of
+            ADAP-BIG:</p>
+        <div class="itemize*">
+            <p><strong>CPU and number of cores:</strong> The performance of ADAP-BIG
+                is highly dependent on the CPU and the number of cores. The more cores
+                the CPU has, the faster the processing will be. For example, the server
+                with AMD EPYC 7313P processor has 16 cores and is able to process 51
+                batches in about 1 day and 11 hours, while the workstation with Intel
+                Xeon W-2145 processor has only 8 cores and takes about 1 day and 21
+                hours to process the same dataset.</p>
+            <p><strong>Available RAM:</strong> The machine has to have enough RAM
+                for processing with ADAP-BIG, otherwise the processing will freeze or
+                completely fail. We recommend having at least 4 GB per core. It is
+                remarkable that even the laptop with 2 GB per core was able to process
+                all 51 batches of the data in our tests. However, whether 2 GB per core
+                is enough or not depends on the size of the raw data files, processing
+                workflow and parameters. For example in our tests, the Background
+                Removal step reduced the number of features by 90% (see Table <a data-reference="table:number-of-features"
+                                                                                 data-reference-type="ref"
+                                                                                 href="#table:number-of-features">1.2</a>),
+                which significantly
+                improved performance of ADAP-BIG. If the Background Removal step is not
+                used (or the dataset doesn’t contain blank and pool samples required by
+                the Background Removal), the performance of ADAP-BIG will be worse.</p>
+            <p><strong>Fast Storage:</strong> The ADAP-BIG performs frequent writing
+                data to and reading data from disk. Therefore, the performance of
+                ADAP-BIG is also dependent on the speed of the storage. In our tests,
+                the laptop had the fastest storage, and as a result, it was able to show
+                similar performance to the workstation and the server with slower
+                storage, especially when processing the Dataset 1 with only 88
+                samples.</p>
+        </div>
+        <p>In summary, ADAP-BIG can be run on a laptop with 16 GB of RAM and 4
+            cores, but for processing large datasets with thousands of samples, we
+            recommend using a workstation or server with at least 64 GB of RAM and 8
+            cores. The performance of ADAP-BIG is highly dependent on the CPU,
+            number of cores, available RAM, and speed of the storage. It is
+            important to note that the performance of ADAP-BIG also depends on the
+            size of the raw data files, the number of samples in the project, the
+            workflow used for processing the data, and individual parameters of the
+            workflow steps. Therefore, the performance results presented in this
+            section should only be used as examples of expected performance of
+            ADAP-BIG with a certain workflow and dataset.</p>
+        <h2 id="providing-feedback-and-reporting-errors">Providing Feedback and
+            Reporting Errors</h2>
+        <p>If users want to provide feedback and/or suggestions about ADAP-BIG,
+            they are encouraged to take a short survey by going to <a href="https://forms.gle/DqhxF3sfxghv7jNk8">https://forms.gle/DqhxF3sfxghv7jNk8</a>.
+            This survey will help the ADAP-BIG team to improve the software and make
+            it more user-friendly. Users can provide feedback on any aspect of
+            ADAP-BIG, including the user interface, data processing, visualization,
+            and documentation. Users can also email their feedback and suggestions
+            to <a href="email:adap.helpdesk@gmail.com">adap.helpdesk@gmail.com</a>.</p>
+        <p>If users encounter any issues while using ADAP-BIG, they can check
+            the log files for error messages. The log files can be found in two
+            locations:</p>
+        <div class="itemize*">
+            <p><strong>ADAP-BIG project directory</strong> (selected during the
+                project creation): the log file for the current project is located in
+                the project directory and has the name <code>adap-big.log</code>. This
+                log file will contain the log messages for the current project,
+                including error messages and warnings, from the moment that project was
+                created. If a project was opened and processed multiple times, the log
+                file will contain messages from all processing runs.</p>
+            <p><strong>User home directory</strong>: depending on the operating
+                system, the log files may be located in
+                <code>C:\Users\USERNAME\.adap-big\logs</code> on Windows, or they can be
+                located in <code>/home/USERNAME/.adap-big/logs</code> on Linux and
+                macOS. These log files will contain all messages, warnings, and errors
+                from all projects created or opened on the computer. Because the number
+                of messages can become quite large, these log files are split into
+                groups based on the year and month of the log messages. For example, the
+                log file for October 2023 will be stored in folder <code>2023-10</code>.
+                This helps in managing and reviewing the logs more efficiently. The
+                current-date messages are still contained in the
+                <code>adap-big.log</code> file.</p>
+        </div>
+        <p>Users can open any log file in a text editor to view the error
+            messages and try to identify the cause of the issue. If users are unable
+            to resolve the issue on their own, they can report the error to the
+            ADAP-BIG team by sending an email to <a href="email:adap.helpdesk@gmail.com">adap.helpdesk@gmail.com</a>. In the
+            email, users should describe the issue they encountered, provide the log
+            file with the error messages, and include any other relevant information
+            that may help in diagnosing the problem. The ADAP-BIG team will review
+            the error report and provide assistance in resolving the issue.</p>
+        <p>Alternatively, users can report the issue by going to <a
+                href="https://github.com/ADAP-BIG/adap-big.github.io/issues">https://github.com/ADAP-BIG/adap-big.github.io/issues</a>
+            and clicking the <em>New Issue</em> button. Users have to have a GitHub
+            account in order to create a new issue. In the issue description, users
+            should provide the same information as in the email: a description of
+            the issue, the log file with the error messages, and any other relevant
+            information. The ADAP-BIG team will review the issue and provide
+            assistance in resolving the problem.</p>
+        <h1 id="processing-raw-ms-data-with-adap-big">Processing Raw MS Data
+            with ADAP-BIG</h1>
+        <h2 id="supported-raw-data">Supported Raw Data</h2>
+        <p>ADAP-BIG accepts raw data files in the following formats: CDF, mzML,
+            mzXML, and ThermoFisher RAW. The CDF, mzML, and mzXML formats are open
+            formats that can be easily opened and read by many software packages
+            including ADAP-BIG. The ThermoFisher RAW format is a proprietary format
+            used by ThermoFisher mass spectrometers. When ADAP-BIG imports
+            ThermoFisher RAW files, it will internally convert them into the mzML
+            format and then read those mzML files. This conversion is natively
+            supported on Windows systems, but on Mac OS and Linux systems, users
+            need to additionally install the Mono library (<a href="https://www.mono-project.com/">https://www.mono-project.com/</a>)
+            if they want to be able to read ThermoFisher RAW files on Mac OS or
+            Linus.</p>
+        <figure id="fig:msconvert">
+            <img src="img/user-manual/fig/msconvert.PNG" style="width:80.0%"/>
+            <figcaption>MSConvert software for converting proprietary raw data files
+                into mzML or mzXML formats.
+            </figcaption>
+        </figure>
+        <p>If users have raw data files in other formats, they should use
+            third-party software to convert the data into one of the supported
+            formats. For example, the ProteoWizard package contains a tool called
+            MSConvert that can read from and write to many open and proprietary data
+            formats (Figure <a data-reference="fig:msconvert" data-reference-type="ref" href="#fig:msconvert">2.1</a>). We
+            highly recommend using
+            MSConvert to convert raw LC-MS data into the mzML format before
+            importing it into ADAP-BIG. For more information about the ProteoWizard
+            package, please visit the <a href="http://proteowizard.sourceforge.net/">ProteoWizard website</a>.
+            Unfortunately, MSConvert does not support converting raw GC-MS data into
+            CDF format, so users need to consult the documentation of their
+            instrument-specific software to find out how to export its raw GC-MS
+            data files into the CDF format.</p>
+        <figure id="fig:profile-vs-centroid">
+            <figcaption>Raw data in the Profile (left) and Centroid (right)
+                modes.
+            </figcaption>
+        </figure>
+        <p>Finally, ADAP-BIG requires the raw data files to be in the centroid
+            mode. Users can tell whether their raw data is in the profile or
+            centroid mode by viewing it in a mass spectrometry data viewer, e.g.
+            SeeMS from the <a href="http://proteowizard.sourceforge.net/">ProteoWizard package</a>.
+            When zooming in on a single m/z peak, users will see a bell-like shape
+            of the peak if the data is in the profile mode (Figure <a data-reference="fig:profile-vs-centroid"
+                                                                      data-reference-type="ref"
+                                                                      href="#fig:profile-vs-centroid">2.2</a>, left), or a
+            single
+            horizontal line if the data is in the centroid mode (Figure <a data-reference="fig:profile-vs-centroid"
+                                                                           data-reference-type="ref"
+                                                                           href="#fig:profile-vs-centroid">2.2</a>, right).
+        </p>
+        <p>If the raw data is in the profile mode, users can use MSConvert to
+            centroid the data by adding “Peak Picking” to the list of filters when
+            converting their raw data. The Figure <a data-reference="fig:msconvert" data-reference-type="ref"
+                                                     href="#fig:msconvert">2.1</a> shows
+            the setup to convert the data into the centroid mode and save it in the
+            mzML format. If the raw data is in the ThermoFisher RAW format, ADAP-BIG
+            will centroid the data automatically. If the raw data is in the CDF
+            format, it is already in the centroid mode and can be imported directly
+            into ADAP-BIG. For more information about MSConvert and its functions,
+            please visit the <a href="http://proteowizard.sourceforge.net/">ProteoWizard
+                website</a>.</p>
+        <h2 id="section:new_project">Creating a New Project</h2>
+        <figure id="fig:new_project">
+            <img src="img/user-manual/fig/new_project.png" style="height:40.0%"/>
+            <figcaption>Creating a new ADAP-BIG project.</figcaption>
+        </figure>
+        <p>Processing raw data starts with creating a new ADAP-BIG project.
+            Users have multiple options to start a new project: clicking <em>Create
+                a new project</em> button on the home page, selecting <em>New
+                Project...</em> in the main menu, or clicking the corresponding button
+            in the toolbar. After any of these actions, a new window will pop up
+            (Figure <a data-reference="fig:new_project" data-reference-type="ref" href="#fig:new_project">2.3</a>).</p>
+        <p>First, users are asked to choose name and location of the new
+            project. The name of the project is automatically generated to contain
+            the current date and time, but users may change that name to anything
+            that works for them. The location of the project is automatically set to
+            the user’s home directory (if it is the first launch of ADAP-BIG) or to
+            the previously used location, but can also be updated by a user. Next,
+            users can choose between GC-MS, single-batch LC-MS/MS, multi-batch
+            LC-MS/MS, and custom workflows. If a custom workflow is used, users must
+            choose the XML file that contains the workflow description. See
+            Chapter <a data-reference="chapter:workflows" data-reference-type="ref" href="#chapter:workflows">3</a> for more
+            information about each
+            workflow and how to create a custom workflow.</p>
+        <div id="tab:workflows">
+            <table>
+                <caption>Data processing workflows available in ADAP-BIG</caption>
+                <thead>
+                <tr>
+                    <th style="text-align: center;"><strong>GC-MS</strong></th>
+                    <th style="text-align: center;"><strong>LC-MS/MS</strong></th>
+                    <th style="text-align: center;"><strong>Multi-batch
+                        LC-MS/MS</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align: left;">
+                        <ol>
+                            <li><p>Input</p></li>
+                            <li><p>Chromatogram Builder</p></li>
+                            <li><p>Peak Detection</p></li>
+                            <li><p>Spectral Deconvolution</p></li>
+                            <li><p>Alignment</p></li>
+                            <li><p>Normalization</p></li>
+                            <li><p>Significance Test</p></li>
+                        </ol>
+                    </td>
+                    <td style="text-align: left;">
+                        <ol>
+                            <li><p>Input</p></li>
+                            <li><p>Chromatogram Builder</p></li>
+                            <li><p>Peak Detection</p></li>
+                            <li><p>MS/MS Pairing</p></li>
+                            <li><p>Join Aligner</p></li>
+                            <li><p>Background Removal</p></li>
+                            <li><p>Normalization</p></li>
+                            <li><p>Significance Test</p></li>
+                        </ol>
+                    </td>
+                    <td style="text-align: left;">
+                        <ol>
+                            <li><p>Input</p></li>
+                            <li><p>Chromatogram Builder</p></li>
+                            <li><p>Peak Detection</p></li>
+                            <li><p>MS/MS Pairing</p></li>
+                            <li><p>Join Aligner</p></li>
+                            <li><p>Background Removal</p></li>
+                            <li><p>Normalization</p></li>
+                            <li><p>Between Batch Aligner</p></li>
+                            <li><p>Batch Effect Correction</p></li>
+                            <li><p>RSD Filter</p></li>
+                        </ol>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Table <a data-reference="tab:workflows" data-reference-type="ref" href="#tab:workflows">2.1</a> shows the three
+            available
+            workflows for processing raw untargeted mass spectrometry data and
+            descriptions of the main workflow steps. The GC-MS workflow consists of
+            the input step, extracted-ion chromatogram (EIC) builder, peak
+            detection, spectral deconvolution, alignment, normalization, and
+            significance test. The LC-MS/MS workflow consists of the input step, EIC
+            builder, peak detection, MS/MS pairing, alignment, background removal,
+            normalization, and significance test. The multi-batch LC-MS/MS workflow
+            adds three more step to the LC-MS/MS workflow: between batch alignment,
+            batch effect correction, and RSD filter. Notice that the three workflows
+            share some of their steps (e.g. input, EIC builder, peak detection),
+            while other steps are unique to either GC-MS, LC-MS/MS, or multi-batch
+            LC-MS/MS workflow. For more details about each workflow step, their
+            parameters and visualization, see Chapters <a data-reference="chapter:workflows" data-reference-type="ref"
+                                                          href="#chapter:workflows">3</a>—<a
+                    data-reference="chapter:post-processing-steps" data-reference-type="ref"
+                    href="#chapter:post-processing-steps">6</a>.</p>
+        <p>After selecting the processing workflow, users can choose between two
+            sets of processing parameters: “Default parameters for High-mass
+            resolution data” and “Default parameters for Low-mass resolution data.”
+            The high-mass resolution parameters are designed for data from
+            high-resolution mass spectrometers, such as Orbitrap, while the low-mass
+            resolution parameters are designed for data from low-resolution mass
+            spectrometers, such as quadrupole. Please, consult your instrument’s
+            documentation to find out whether your data has high or low mass
+            resolution. As a rule of thumb, if you are processing LC-MS data, you
+            probably have high mass resolution data, while if you are processing
+            GC-MS data, you probably have low mass resolution data. In addition to
+            two predefined sets of parameters, users can also select their custom
+            parameters by importing an XML file with the parameters. See Section <a
+                    data-reference="section:parameters_window" data-reference-type="ref" href="#section:parameters_window">2.4</a>
+            for more information
+            about how to modify parameters and export them into an XML file.</p>
+        <figure id="fig:add_files">
+            <img src="img/user-manual/fig/add_files.png" style="width:80.0%"/>
+            <figcaption>Add files to a new ADAP-BIG project.</figcaption>
+        </figure>
+        <p>After a workflow and its parameters are chosen, users must select raw
+            data files for the new project by clicking on <em>Select Files...</em>
+            or <em>Select Folder...</em> button. Currently, files in CDF, mzML,
+            mzXML, and ThermoFisher RAW formats are supported. Additionally, the
+            data should be in the centroid mode when mzML or mzXML files are used.
+            Only the ThermoFisher RAW files will be centroided automatically. After
+            users select raw data files, they will see the Add Files window (Figure
+            <a data-reference="fig:add_files" data-reference-type="ref" href="#fig:add_files">2.4</a>) where they can view
+            all samples,
+            adjust the corresponding batches and sample type information, and import
+            and export metadata. ADAP-BIG can import metadata from a CSV file with
+            the columns:</p>
+        <ul>
+            <li><p><strong>injection_order</strong> contains the sample injection
+                information (usually numbers 1, 2, 3,…),</p></li>
+            <li><p><strong>sample_order</strong> contains filenames of the raw data
+                files,</p></li>
+            <li><p><strong>sample_type</strong> contains the sample type values such
+                as “study”, “sample” for regular samples, “pool”, “study pool”, “sp” for
+                study pool samples, “blank” for blank samples, and “standard”, “nist”,
+                “reference material” for samples with a reference material,</p></li>
+            <li><p><strong>batch</strong> (optional) contains the batch number if
+                more than one batch is to be processed (numbers 1, 2, 3,…),</p></li>
+            <li><p><strong>batch_folder</strong> (optional) contains names of the
+                folders with the raw data files of each batch (used for checking that
+                each file is assigned to the correct batch)</p></li>
+            <li><p>(optional) other columns with the information on disease-control,
+                gender, weight, etc. (used in PCA and statistical tests)</p></li>
+        </ul>
+        <p>At the bottom of the Add Files window, users can see an example of
+            the metadata file. Each CSV file must contain columns
+            <strong>injection_order</strong> and <strong>sample_order</strong> (in
+            that order), while other columns are optional. After importing a
+            metadata file, users should see all the metadata assigned to the samples
+            in the Add Files window. Moreover, users can export the metadata (e.g.,
+            after modifying the batch and sample type information) by clicking the
+            <em>Export Metadata…</em> button. Finally, after clicking the
+            <em>OK</em> button, the New Project window will display per-batch
+            statistics (Figure <a data-reference="fig:new_project" data-reference-type="ref" href="#fig:new_project">2.3</a>)
+            with numbers showing the
+            number of samples with a particular metadata value in each batch. Users
+            are advised to check these numbers to make sure that the metadata is
+            correct.</p>
+        <p>Finally, users can choose whether the workflow steps should be
+            executed immediately after creating the project (Figure <a data-reference="fig:new_project"
+                                                                       data-reference-type="ref"
+                                                                       href="#fig:new_project">2.3</a>). If the <em>Execute
+                Entire
+                Workflow</em> checkbox is selected, then all workflow steps will be
+            executed immediately after creating the new project. Otherwise, ADAP-BIG
+            will only import the raw data files without processing them. The latter
+            is useful when users want to only view raw data files or adjust
+            parameters of the workflow steps before running them. After the project
+            is created and the option <em>Execute Entire Workflow</em> was selected,
+            the processing will start immediately and users will see the queued
+            workflow steps in the progress area at the bottom of the main window
+            (Figure <a data-reference="fig:user-interface" data-reference-type="ref" href="#fig:user-interface">1.2</a>).
+        </p>
+        <h2 id="section:workflows">Processing Raw MS Data</h2>
+        <p>After an ADAP-BIG project is created, the data processing will start
+            automatically if the option “Execute entire workflow” was selected
+            during the project creation. Users can view the progress of the data
+            processing in the task area at the bottom of the application window
+            (Figure <a data-reference="fig:user-interface" data-reference-type="ref" href="#fig:user-interface">1.2</a>).
+            Users may still use
+            ADAP-BIG while the processing is running, for example, they can select
+            the Input step to view the raw data while the other workflow steps are
+            being processed. See chapters <a data-reference="chapter:single-batch-processing-steps"
+                                             data-reference-type="ref"
+                                             href="#chapter:single-batch-processing-steps">4</a>—<a
+                    data-reference="chapter:post-processing-steps" data-reference-type="ref"
+                    href="#chapter:post-processing-steps">6</a> about the available
+            visualization for each workflow step. However, users cannot view the
+            workflow step results until the processing of that step is finished. If
+            users try to view the results of a workflow step that is currently being
+            processed, they will see a message saying that the processing results
+            are not available yet and asking to wait or rerun that workflow
+            step.</p>
+        <figure id="fig:processing">
+            <img src="img/user-manual/fig/processing.png" style="width:50.0%"/>
+            <figcaption>Processing options and targets.</figcaption>
+        </figure>
+        <p>If users need to rerun some of the workflow steps, e.g. after
+            changing their parameters, they can do so by selecting the workflow step
+            in the project tree or the workflow bar, and selecting one of the
+            <em>Run</em> menu options (Figure <a data-reference="fig:processing" data-reference-type="ref"
+                                                 href="#fig:processing">2.5</a>).
+            Three options are available to execute workflow steps:</p>
+        <div class="itemize*">
+            <p><strong>Run the current workflow step</strong> will execute only the
+                selected workflow step. This option is useful when users want to try new
+                parameters of a workflow step and see the new processing results without
+                rerunning other workflow steps. However, they need to remember to
+                manually rerun the following steps in order to update the results of
+                those steps.</p>
+            <p><strong>Run the current and following workflow steps</strong> will
+                rerun the workflow steps starting from the selected step. This option is
+                useful when users want to apply new parameters to a workflow step and
+                automatically update the results of that step and all the following
+                steps.</p>
+            <p><strong>Run the entire workflow</strong> will automatically rerun all
+                workflow steps on all samples in the project. This option is useful to
+                make sure that all workflow steps are rerun after changing parameters.
+                However, be advised that it may take a long time to rerun the entire
+                workflow, especially for large projects.</p>
+        </div>
+        <p>In addition to the three processing options, users can select the
+            processing target: the current sample, the current batch, or all batches
+            (Figure <a data-reference="fig:processing" data-reference-type="ref" href="#fig:processing">2.5</a>). Depending
+            on the target
+            selection, the current workflow step will be executed on a single
+            sample, all samples in a single batch, or all samples in all batches,
+            correspondingly. This allows users to quickly try new parameters on a
+            single sample and immediately see the new processing results. However,
+            users need to remember to rerun the current and following steps on all
+            samples after adjusting parameters of any workflow step. The alignment
+            steps, multi-batch steps, and other steps after them will use all
+            samples (in a batch if appropriate) regardless of what target is
+            selected by a user.</p>
+        <h2 id="section:parameters_window">Processing Parameters and
+            Metadata</h2>
+        <p>ADAP-BIG has two built-in sets of processing parameters that users
+            can select from when creating a new project: “Default parameters for
+            High-mass resolution data” and “Default parameters for
+            Low-mass-resolution data.” The high-mass-resolution parameters are
+            designed for data from high-resolution mass spectrometers, such as
+            Orbitrap, while the low-mass-resolution parameters are designed for data
+            from low-resolution mass spectrometers, such as quadrupole. Users can
+            also import custom parameters from an XML file by clicking the
+            <em>Import...</em> button in the Settings window. For more information
+            about the XML file with parameters, see Section <a data-reference="section:settings.xml"
+                                                               data-reference-type="ref"
+                                                               href="#section:settings.xml">7.3</a>.</p>
+        <figure id="fig:parameters">
+            <img src="img/user-manual/fig/parameters.png" style="height:40.0%"/>
+            <figcaption>Editing parameters of workflow steps.</figcaption>
+        </figure>
+        <p>Users can edit parameters for each workflow step either by clicking
+            the <em>Settings</em> button in the visualization tab of any workflow
+            step, selecting menu <em>Run/Settings...</em>, or clicking the settings
+            icon in the toolbar. In all cases, the Settings window will pop up (see
+            Figure <a data-reference="fig:parameters" data-reference-type="ref" href="#fig:parameters">2.6</a>). Here, users
+            can edit the
+            general parameters (that can be applied to multiple workflow steps) or
+            individual parameters of each workflow step.</p>
+        <h5 id="general-parameters.">General Parameters.</h5>
+        <p>ADAP-BIG contains a small number of general parameters that can be
+            applied to multiple workflow steps. The parameter <em>m/z tolerance</em>
+            can be set in ppm or Da, and can be used in the Chromatogram Builder,
+            MS/MS Pairing, and LC-MS Alignment steps. The parameter <em>QC sample
+                type</em> can be set to “blank”, “pool”, or “standard”, and can be used
+            in the Join Aligner, Multi-batch Join Aligner, Background Removal,
+            Normalization, and RSD Filter steps. More general parameters will be
+            added in the future. Users need to remember that using these general
+            parameters is optional, and they can always set the parameters of each
+            workflow step individually. The m/z tolerance and QC sample type
+            parameters for individual steps will have a checkbox to indicate whether
+            the workflow step should use the value of the corresponding general
+            parameter (e.g., see the <em>m/z tolerance</em> parameter of the
+            <em>Chromatogram Builder</em> step in Figure <a data-reference="fig:parameters" data-reference-type="ref"
+                                                            href="#fig:parameters">2.6</a>).</p>
+        <h5 id="individual-parameters.">Individual Parameters.</h5>
+        <p>To adjust parameters of an individual workflow step, users can select
+            that workflow step in the list of all processing steps, and change its
+            parameters in the panel on the right of the Settings window. In that
+            panel, each parameter will have a name, value, and a short description.
+            After adjusting parameters, users should click the <em>Save</em> button
+            and <strong>rerun</strong> the affected workflow steps. Remember, that
+            users must rerun workflow steps for their new parameters to take
+            effect.</p>
+        <p>Buttons at the top-right of the <em>Settings</em> window let users
+            select the default high-mass-resolution and low-mass-resolution
+            parameters (button <em>Load default settings</em>), import workflow
+            parameters from an existing XML file (button <em>Import from
+                File...</em>), and export the current workflow parameters to an XML file
+            (button <em>Export to File...</em>). This allows users to save and reuse
+            their own custom parameters when needed. Additionally, users have an
+            option to view and edit parameters for the steps of the current workflow
+            (default), GC-MS workflow, LC-MS/MS workflow, multi-batch LC-MS/MS
+            workflow, or view parameters of all workflow steps.</p>
+        <p>Finally, users may choose to discard their changes by clicking the
+            <em>Reset</em> button or close the Setting window without save by
+            clicking the <em>Close</em> button.</p>
+        <figure id="fig:metadata">
+            <img src="img/user-manual/fig/metadata.png" style="width:80.0%"/>
+            <figcaption>Metadata window.</figcaption>
+        </figure>
+        <h5 id="manage-samples-in-the-project.">Manage samples in the
+            project.</h5>
+        <p>In some situations, users may want to view the sample metadata,
+            exclude certain samples from the processing, or adjust their sample
+            types. In this case, they can click the button <em>Edit Metadata…</em>
+            at the bottom of the project tree to open the Metadata window (Figure <a data-reference="fig:metadata"
+                                                                                     data-reference-type="ref"
+                                                                                     href="#fig:metadata">2.7</a>).</p>
+        <p>In this window, the first column “Include/Exclude” shows what samples
+            are included in the project, and users can uncheck the samples that
+            should not be processed. This doesn’t remove those samples from the
+            project (so users can include them into the project later), but these
+            samples will be ignored during the processing. Users also can update the
+            sample type for each sample by modifying the “Sample Type” column. In
+            order to change multiple samples, it is possible to select multiple rows
+            in the table, and then right-click on any selected row to show the
+            context menu with options to include/exclude samples and change sample
+            types. Finally, users can use the Search box at the top-right of the
+            Metadata window to filter the samples shown in the Metadata window. This
+            filter is convenient to use for finding certain samples based on their
+            filenames (e.g. searching ‘B_‘ to find all blank samples or ‘SP_‘ to
+            find all study pool samples), or their metadata (e.g., searching
+            “control” to find all samples from the control group). In order to
+            search the metadata, make sure that metadata was correctly imported
+            during the creation of the project.</p>
+        <p>Similar to adjusting parameters, users need to click the “OK” button
+            in the Metadata window and rerun the data processing for the changes to
+            take effect. When excluding samples from the project, users would need
+            to rerun the alignment step and all the steps after the alignment. When
+            changing the sample types of the blank samples, study pool samples, or
+            other quality-control samples, users may need to rerun the Background
+            Removal step and all the steps after it.</p>
+        <h2 id="viewingexporting-results">Viewing/Exporting Results</h2>
+        <p>After the processing of the entire workflow is complete, users can
+            view and export the processing results and also perform the Principal
+            Component Analysis (PCA). In order to view the final results, users just
+            need to select the last workflow step either in the workflow bar or in
+            the project tree. If the last step is the ANOVA Significance Test but no
+            metadata was imported when creating the project, then the ANOVA
+            Significance Test will not have any results to show. In the latter case,
+            just select the workflow step prior to the significance step.</p>
+        <p>When processing results are displayed in the main area of ADAP-BIG,
+            users have multiple options to export the results. They can select those
+            options from the main menu <em>Export</em> or at the top-left of the tab
+            with the processing results. Those options include:</p>
+        <ul>
+            <li><p>Export the quantitation table into a CSV file</p></li>
+            <li><p>Export the MS1 spectra into an MSP file (GC-MS workflow)</p></li>
+            <li><p>Export the MS/MS spectra into an MSP file (single-batch and
+                multi-batch LC-MS/MS workflows)</p></li>
+            <li><p>Export a PDF report with the description of the processing steps
+                and their parameters, and statistics of the processed samples.</p></li>
+        </ul>
+        <p>Users can use these exported files to perform a statistical analysis
+            or run the library matching. Moreover, then can send the MSP files
+            directly to <a href="https://adap.cloud">https://adap.cloud</a> for the
+            library matching by using the option <em>Send to ADAP-KDB</em> in the
+            export menu. In ADAP-KDB, users can identify/annotate the export spectra
+            by matching them against public libraries or private in-house libraries.
+            See <a href="https://adap.cloud/about/">https://adap.cloud/about/</a>
+            for more information about ADAP-KDB.</p>
+        <figure id="fig:pca">
+            <img src="img/user-manual/fig/pca.png" style="width:60.0%"/>
+            <figcaption>Principal component analysis.</figcaption>
+        </figure>
+        <p>In addition to exporting results, users can also perform some
+            statistical analysis within ADAP-BIG. For example, the ANOVA Statistical
+            Test is a part of the built-in GC-MS and LC-MS/MS workflows. Moreover,
+            user can plot PCA after the last or any other workflow step (as long as
+            that step handles aligned features from multiple samples) by selecting
+            the menu <em>Statistics/Execute PCA</em> (Figure <a data-reference="fig:pca" data-reference-type="ref"
+                                                                href="#fig:pca">2.8</a>). In the PCA
+            window, users can choose between intensity and area values, z-scaling
+            and Pareto scaling, coloring by batch, sample type or other available
+            metadata, and also show/hide samples based on their sample types.</p>
+        <h2 id="section:console_app">Running ADAP-BIG in Terminal and on
+            Cluster</h2>
+        <p>The ADAP-BIG Console App is a standalone Java application that can be
+            run from the command line. The Console App has the same functionality as
+            the GUI version of ADAP-BIG, but it doesn’t have a graphical user
+            interface. Instead, users need to provide a configuration file with the
+            parameters of the workflow steps and the paths to the raw data files.
+            The Console App will process the data according to the parameters in the
+            configuration file and save the results to the specified output
+            directory. Then, users can view the processing results by opening the
+            created project folder in the GUI version of ADAP-BIG.</p>
+        <p>ADAP-BIG can be run without GUI in a terminal and on a cluster.
+            Running ADAP-BIG on a cluster is useful when users want to process one
+            large dataset or automatically process multiple datasets. To run
+            ADAP-BIG in a terminal, users need to download the ADAP-BIG Console App
+            from the <a href="https://adap-big.github.io">ADAP-BIG website</a> and
+            install <a href="https://www.oracle.com/java/technologies/downloads/">Java SE
+                Development Kit 19 or newer</a> if it’s not already installed in your
+            system.</p>
+        <p>To run ADAP-BIG on a cluster, users need to have access to a cluster
+            with a job scheduler (e.g. SLURM, PBS, SGE), a shared file system (e.g.
+            NFS, Lustre), and Java 19 or newer. When specifying parameters of a job
+            to run the ADAP-BIG Console App on a cluster, consider these guidelines
+            to achieve the best performance:</p>
+        <div class="itemize*">
+            <p>ADAP-BIG is a multi-threaded Java application, so users should
+                specify the number of threads to use for the processing. Typically,
+                users need to request 1 node, 1 task, and multiple threads/cores/CPUs
+                (e.g. 16, 32, 64) depending on the number of available threads on the
+                node. For example, in SLURM, users need to specify the following
+                parameters:</p>
+            <pre><code>            #SBATCH --nodes=1
+                #SBATCH --ntasks=1
+                #SBATCH --cpus-per-task=&lt;number_of_threads&gt;</code></pre>
+            <p>where <code>&lt;number_of_threads&gt;</code> is the number of threads
+                to use in parallel (e.g., 16, 32, 64).</p>
+            <p>ADAP-BIG performs multiple read/write operations during its work, so
+                slow storage may significantly affect the performance. Users should use
+                a high-performance storage space if available. Please consult cluster
+                administrators for the details on the available storage options.</p>
+        </div>
+        <p>To run the ADAP-BIG Console App in a terminal, users need to open a
+            terminal window and navigate to the directory where the Console App JAR
+            file is located. Then, they can run the Console App with the following
+            command:</p>
+        <pre><code>        java -Xmx64G -jar adap-big-console-app.jar
+                -d PATH-TO-PROJECTS
+                -f PATH-TO-SAMPLES
+                -w WORKFLOW-FILE
+                -s SETTINGS-FILE
+                [--factors METADATA-FILE]</code></pre>
+        <p>where <code>adap-big-console-app.jar</code> is the name of the
+            Console App JAR file. The console app should be provided the following
+            command-line arguments:</p>
+        <div class="itemize*">
+            <p>– the path to the directory where the project will be saved;</p>
+            <p>– path to the directory with the raw data files (.CDF, .mzML, .mzXML,
+                or ThermoFisher .raw files). If the path contains subfolders, each
+                subfolder will be treated as a separate batch.</p>
+            <p>– the workflow file, which can be exported from the Workflow Editor
+                in the GUI version of ADAP-BIG (see Section <a data-reference="section:customizing_workflows"
+                                                               data-reference-type="ref"
+                                                               href="#section:customizing_workflows">3.4</a>);</p>
+            <p>– the settings file, which can be exported from the Settings window
+                in the GUI version of ADAP-BIG (see Section <a data-reference="section:parameters_window"
+                                                               data-reference-type="ref" href="#section:parameters_window">2.4</a>).
+            </p>
+            <p>– the metadata file (see Section <a data-reference="section:new_project" data-reference-type="ref"
+                                                   href="#section:new_project">2.2</a>
+                for the description of the metadata file);</p>
+        </div>
+        <p>When running the ADAP-BIG Console App, users are advised to always
+            provide the maximum amount of memory available on their system with the
+            <code>-Xmx</code> option (see the examples). The application will use
+            the amount of memory specified with the <code>-Xmx</code> option even if
+            more physical memory is available on the local system, or requested by
+            the job scheduler. Therefore, pay close attention to the value of the
+            <code>-Xmx</code> option when running the Console App, and check the log
+            files to see if the processing steps are using the specified amount of
+            memory (some steps will use more RAM than the others).</p>
+        <p>If users are processing a single-batch data, they need to provide
+            <code>PATH-TO-SAMPLES</code> argument that points to a folder with raw
+            data files. For example, if the raw data files and metadata file are
+            located in the directory <code>D:\Data\single-batch-data</code>, the
+            workflow and settings files are located in <code>D:\configs</code>, and
+            the project should be created in the directory <code>D:\Projects</code>,
+            the command to run the ADAP-BIG Console App would be:</p>
+        <pre><code>    java -Xmx64G -jar adap-big-console-app.jar
+            -d D:\Projects
+            -f D:\Data\single-batch-data
+            -w D:\configs\single-batch-workflow.xml
+            -s D:\configs\settings.xml
+            --factors D:\Data\single-batch-data\metadata.csv</code></pre>
+        <p>If users are processing multi-batch data, they need to provide
+            <code>PATH-TO-SAMPLES</code> argument that points to a folder containing
+            subfolders with raw data files for each batch. For example, if the raw
+            data files for the first batch are located in the folder
+            <code>batch1</code> inside the directory
+            <code>D:\Data\multi-batch-data</code> and the raw data files for the
+            second batch are located in the folder <code>batch2</code> inside the
+            directory <code>D:\Data\multi-batch-data</code>, the command to run the
+            ADAP-BIG Console App would be:</p>
+        <pre><code>    java -Xmx64G -jar adap-big-console-app.jar
+            -d D:\Projects
+            -f D:\Data\multi-batch-data
+            -w D:\configs\multi-batch-workflow.xml
+            -s D:\configs\settings.xml
+            --factors D:\Data\multi-batch-data\metadata.csv</code></pre>
+        <p>The Console App will process the data according to the parameters in
+            the configuration files and save the results to the specified output
+            directory. After the processing is done, users can view the processing
+            results by opening the created project folder in the GUI version of
+            ADAP-BIG.</p>
+        <h1 id="chapter:workflows">Processing Workflows</h1>
+        <h2 id="section:gcms-workflow">GC-MS Workflow</h2>
+        <p>The GC-MS workflow in ADAP-BIG is designed to process raw untargeted
+            mass spectrometry data, specifically for gas chromatography-mass
+            spectrometry (GC-MS) analysis. The data processing begins with the
+            creation of a new project, where users can select the GC-MS workflow
+            (“Gas Chromatography – Mass Spectrometry”) and select parameters for
+            low-mass-resolution data (“Default parameters for Low-mass resolution
+            data”). Users then add raw data files in CDF format and import metadata
+            to categorize samples. The project setup includes options to execute the
+            entire workflow immediately or adjust parameters before processing.</p>
+        <p>The first step in the GC-MS workflow is the Input step (see
+            Section <a data-reference="section:gcms_input" data-reference-type="ref" href="#section:gcms_input">4.1</a>),
+            which imports raw data
+            files and displays their details, including scan information and
+            chromatograms. This step does not have user-defined parameters and
+            serves as the foundation for subsequent processing steps. The
+            Chromatogram Builder step (Section <a data-reference="section:gcms_chromatogram_builder"
+                                                  data-reference-type="ref"
+                                                  href="#section:gcms_chromatogram_builder">4.2</a>) follows,
+            constructing extracted-ion chromatograms (EICs) by grouping data points
+            with similar m/z values over time. Users can adjust parameters such as
+            m/z tolerance, group size, and intensity thresholds to optimize
+            chromatogram construction.</p>
+        <p>Next, the Peak Detection step (Section <a data-reference="section:gcms_peak_detection" data-reference-type="ref"
+                                                     href="#section:gcms_peak_detection">4.3</a>) identifies
+            individual peaks within the EICs using parameters like signal-to-noise
+            ratio, peak duration, and wavelet transform coefficients. This step is
+            crucial for detecting distinct peaks that represent analytes in the
+            sample. The Spectral Deconvolution step (Section <a data-reference="section:gcms_spectral_deconvolution"
+                                                                data-reference-type="ref"
+                                                                href="#section:gcms_spectral_deconvolution">4.5</a>) then
+            decomposes these peaks into pure fragmentation mass spectra by
+            clustering similar peaks and constructing model peaks. Users can adjust
+            parameters such as window width, retention time tolerance, and cluster
+            size to refine the deconvolution process.</p>
+        <p>The GC-MS Alignment step (Section <a data-reference="section:gcms_alignment" data-reference-type="ref"
+                                                href="#section:gcms_alignment">4.6</a>) aligns similar features
+            across multiple samples based on their retention times and spectral
+            similarities. This step ensures that features are consistently
+            identified across different samples, facilitating comparative analysis.
+            Parameters for this step include sample frequency, retention time
+            tolerance, and matching score thresholds. Finally, the Normalization
+            step (Section <a data-reference="section:normalization" data-reference-type="ref" href="#section:normalization">4.9</a>)
+            scales feature
+            intensities and areas to account for variations in sample preparation
+            and instrument response. Users can adjust parameters such as
+            normalization method and pool sample type to standardize feature
+            intensities.</p>
+        <p>Throughout the workflow, users can view and export processing
+            results, including feature tables and mass spectra. The GC-MS workflow
+            in ADAP-BIG is designed to be flexible and customizable, allowing users
+            to adjust parameters and rerun steps as needed to achieve optimal
+            results. Addition steps like One-way ANOVA test (Section <a data-reference="section:anova_test"
+                                                                        data-reference-type="ref"
+                                                                        href="#section:anova_test">6.1</a>) and Library
+            Search
+            (Section <a data-reference="section:library_search" data-reference-type="ref"
+                        href="#section:library_search">6.3</a>) can be added to the
+            default workflow if necessary. The comprehensive visualization and
+            export options facilitate detailed analysis and interpretation of the
+            processed data. See the next chapters for more details about each
+            processing step.</p>
+        <h2 id="section:lcms-workflow">LC-MS/MS Workflow</h2>
+        <p>The LC-MS/MS single-batch workflow in ADAP-BIG is designed to process
+            raw untargeted liquid chromatography-mass spectrometry (LC-MS) data. The
+            data processing begins with the creation of a new project, where users
+            can select the LC-MS workflow “Liquid Chromatography – Tandem Mass
+            Spectrometry (LC-MS(/MS))” and select parameters for
+            high-mass-resolution data (“Default parameters for High-mass resolution
+            data”.) Users then add raw data files in one of the available formats
+            (mzML, mzXML, or raw ThermoFisher data format) and import metadata to
+            categorize samples. The project setup includes options to execute the
+            entire workflow immediately or adjust parameters before processing.</p>
+        <p>First, the Input step (see Section <a data-reference="section:gcms_input" data-reference-type="ref"
+                                                 href="#section:gcms_input">4.1</a>)
+            imports raw data files and displays their details, including scan
+            information and chromatograms. This step serves as the foundation for
+            subsequent processing steps and does not have user-defined parameters.
+            Users can view the imported raw data and ensure that all necessary files
+            are correctly loaded before proceeding to the next steps.</p>
+        <p>The Chromatogram Builder step (Section <a data-reference="section:gcms_chromatogram_builder"
+                                                     data-reference-type="ref"
+                                                     href="#section:gcms_chromatogram_builder">4.2</a>) constructs
+            extracted-ion chromatograms (EICs) by grouping data points with similar
+            m/z values over time. Users can adjust parameters such as m/z tolerance,
+            group size, and intensity thresholds to optimize chromatogram
+            construction. This step is crucial for creating a clear representation
+            of the data, allowing for the identification of peaks that represent
+            analytes in the sample. The visualization of this step includes a table
+            of built chromatograms and plots showing the chromatograms and their
+            shapes in the retention time vs. m/z plane.</p>
+        <p>Following the Chromatogram Builder, the Peak Detection step
+            (Section <a data-reference="section:gcms_peak_detection" data-reference-type="ref"
+                        href="#section:gcms_peak_detection">4.3</a>) identifies
+            individual peaks within the EICs using parameters like signal-to-noise
+            ratio, peak duration, and wavelet transform coefficients. This step is
+            essential for detecting distinct peaks that represent analytes in the
+            sample. The detected peaks are then paired with the MS/MS scans in the
+            MS/MS Pairing step (Section <a data-reference="section:lcms_ms2_pairing" data-reference-type="ref"
+                                           href="#section:lcms_ms2_pairing">4.4</a>), which matches MS/MS
+            scans with the corresponding MS1 peaks. This step is crucial for linking
+            fragmentation spectra to precursor ions and identifying potential
+            compounds.</p>
+        <p>The LC-MS Alignment step (Section <a data-reference="section:lcms_alignment" data-reference-type="ref"
+                                                href="#section:lcms_alignment">4.7</a>) aligns similar features
+            across multiple samples based on their retention times and m/z
+            similarities, ensuring consistent identification of features across
+            different samples. Parameters for this step include retention time
+            tolerance, m/z weight, and retention time weight. This step is crucial
+            for comparative analysis, allowing users to see how features vary across
+            samples. The visualization includes tables and plots showing the aligned
+            features and their intensities across samples.</p>
+        <p>The Background Removal step (Section <a data-reference="section:lcms_background_removal"
+                                                   data-reference-type="ref" href="#section:lcms_background_removal">[section:lcms_background_removal]</a>)
+            removes features based on the ratio of intensities between pool and
+            blank samples. This step is essential for filtering out background noise
+            and ensuring that only relevant features are retained for further
+            analysis. Users can adjust parameters such as pool sample type and blank
+            sample type to customize the background removal process. The
+            visualization includes tables and plots showing the features that passed
+            the background removal.</p>
+        <p>Finally, The Normalization step (Section <a data-reference="section:normalization" data-reference-type="ref"
+                                                       href="#section:normalization">4.9</a>) scales feature
+            intensities and areas to account for variations in sample preparation
+            and instrument response. Users can adjust parameters such as
+            normalization method and pool sample type to standardize feature
+            intensities. This step is crucial for ensuring that features are
+            comparable across samples and that differences in intensity are not due
+            to technical factors.</p>
+        <p>Throughout the workflow, users can view and export processing
+            results, including feature tables and mass spectra. The LC-MS
+            single-batch workflow in ADAP-BIG is designed to be flexible and
+            customizable, allowing users to adjust parameters and rerun steps as
+            needed to achieve optimal results. Additional steps like Library
+            Matching (Section <a data-reference="section:library_search" data-reference-type="ref"
+                                 href="#section:library_search">6.3</a>) can be added to the
+            default workflow if necessary. The comprehensive visualization and
+            export options facilitate detailed analysis and interpretation of the
+            processed data.</p>
+        <h2 id="section:multi-batch-lcms-workflow">Multi-batch LC-MS/MS
+            Workflow</h2>
+        <p>The multi-batch LC-MS/MS workflow in ADAP-BIG is designed to process
+            raw untargeted liquid chromatography-mass spectrometry (LC-MS) data from
+            multiple batches. The data processing begins with the creation of a new
+            project, where users can select the multi-batch LC-MS/MS workflow
+            “Multi-batch Liquid Chromatography – Tandem Mass Spectrometry
+            (LC-MS(/MS))” and select parameters for high-mass-resolution data
+            (“Default parameters for High-mass resolution data”.) Users then add raw
+            data files in one of the available formats (mzML, mzXML, or raw
+            ThermoFisher data format) and import metadata to categorize samples. The
+            project setup includes options to execute the entire workflow
+            immediately or adjust parameters before processing.</p>
+        <p>The multi-batch LC-MS/MS workflow builds upon the single-batch
+            LC-MS/MS workflow (Section <a data-reference="section:lcms_workflow" data-reference-type="ref"
+                                          href="#section:lcms_workflow">[section:lcms_workflow]</a>), so
+            its steps from Input through Background Removal are performed for each
+            batch separately. After the Background Removal step, the workflow
+            continues with the Between Batch Alignment step (Section <a data-reference="section:between_batch_alignment"
+                                                                        data-reference-type="ref"
+                                                                        href="#section:between_batch_alignment">[section:between_batch_alignment]</a>),
+            which aligns features across multiple batches based on their m/z and
+            retention time similarities. This step is crucial for comparing features
+            across different batches and identifying consistent patterns. Parameters
+            for this step include m/z tolerance, retention time tolerance, and
+            alignment score thresholds.</p>
+        <p>The Multi-batch Normalization step (Section <a data-reference="section:multi_batch_normalization"
+                                                          data-reference-type="ref"
+                                                          href="#section:multi_batch_normalization">[section:multi_batch_normalization]</a>)
+            scales feature intensities and areas across multiple batches to account
+            for variations in sample preparation and instrument response. Users can
+            adjust parameters such as normalization method and pool sample type to
+            standardize feature intensities. This step is essential for ensuring
+            that features are comparable across batches and that differences in
+            intensity are not due to technical factors.</p>
+        <p>Following the Normalization, the Batch-effect Correction Step
+            (Section <a data-reference="section:batch_effect_correction" data-reference-type="ref"
+                        href="#section:batch_effect_correction">5.3</a>) removes the
+            batch effect by calculating per-batch shifts for each feature in the
+            log-transformed intensity space. This step is essential for ensuring
+            that differences between batches are not due to technical factors and
+            that features are comparable across batches. Parameters for this step
+            include the missing pool ratio, pool sample type, and whether the
+            results are transformed back to the original space or kept in the
+            log-transformed space.</p>
+        <p>Finally, the Multi-batch Pool RSD Filter step (Section <a data-reference="section:multi_batch_pool_rsd_filter"
+                                                                     data-reference-type="ref"
+                                                                     href="#section:multi_batch_pool_rsd_filter">5.5</a>)
+            filters
+            out features with a high relative standard deviation (RSD) across pool
+            samples. This step is essential for removing features with high
+            variability and ensuring that only reliable features are retained for
+            further analysis. Parameters for this step include the RSD threshold and
+            the pool sample type. The visualization includes tables and plots
+            showing the features that passed the RSD filter.</p>
+        <p>Throughout the workflow, users can view and export processing
+            results, including feature tables and mass spectra. The multi-batch
+            LC-MS/MS workflow in ADAP-BIG is designed to be flexible and
+            customizable, allowing users to adjust parameters and rerun steps as
+            needed to achieve optimal results. Additional steps like Library
+            Matching (Section <a data-reference="section:library_search" data-reference-type="ref"
+                                 href="#section:library_search">6.3</a>) can be added to the
+            default workflow if necessary. The comprehensive visualization and
+            export options facilitate detailed analysis and interpretation of the
+            processed data.</p>
+        <h2 id="section:customizing_workflows">Customizing Workflows</h2>
+        <figure id="fig:workflow_editor">
+            <figcaption>Workflow editor.</figcaption>
+        </figure>
+        <p>Users can customize the GC-MS, LC-MS/MS, and multi-batch LC-MS/MS
+            workflows in ADAP-BIG by adding and removing steps based on their
+            specific data processing needs. The default workflows include a set of
+            processing steps that are commonly used for untargeted mass spectrometry
+            data analysis, but users may want to modify the workflows to include
+            additional steps or exclude unnecessary steps. They can do this by
+            creating or opening an existing project, and then selecting the menu
+            <em>Run/Workflow Editor...</em>, which will open the Workflow Editor
+            window (Fig. <a data-reference="fig:workflow_editor" data-reference-type="ref"
+                            href="#fig:workflow_editor">3.1</a>). In this window, users can
+            view all available processing steps and add them to or remove them from
+            the current workflow by clicking the arrow buttons in the center or by
+            dragging and dropping the steps between the left and right panels. By
+            default, all changes will be applied only to the workflow of the current
+            project. If users want to apply these changes to other projects, they
+            can export the updated workflow into an XML file, and then select that
+            file when creating a new project. This allows users to save their custom
+            workflows and reuse them in new projects.</p>
+        <p>After editing the workflow steps, users can click the Save button to
+            apply the modified workflow to the current project. Additionally, users
+            can export the modified workflow to an XML file by clicking the
+            <em>Export to file...</em> button. This XML file can be selected when
+            creating a new project, instead of the default GC-MS, LC-MS/MS, and
+            multi-batch LC-MS/MS workflows. In the projects that were already
+            created, users can import a custom workflow from an XML file by clicking
+            the <em>Import from file...</em> button in the Workflow Editor window.
+            This allows users to load previously saved custom workflows and apply
+            them to existing projects. The custom workflows can be shared with other
+            users or used across multiple projects to streamline data processing and
+            analysis.</p>
+        <p>While editing, the workflow can become unfeasible by adding a step
+            that requires the output of a previous step that was removed. For
+            example, the GC-MS Alignment step requires the output of the Spectral
+            Deconvolution step, or Multi-batch Alignment requires the LC-MS
+            Alignment to be performed first for each batch individually. Therefore,
+            removing the Spectral Deconvolution step while keeping the GC-MS
+            Alignment step will turn the current workflow unfeasible. In this case,
+            the Workflow Editor will highlight the problematic steps (the GC-MS
+            Alignment step in this example), show a warning message, and will refuse
+            to save the current workflow. Users will need to fix the workflow by
+            adding the necessary steps back or removing the problematic steps before
+            saving the workflow. Alternatively, users can click the <em>Reset</em>
+            button to discard all changes and revert to the previous workflow or
+            click the <em>Close</em> button to close the Workflow Editor without
+            saving the changes.</p>
+        <h1 id="chapter:single-batch-processing-steps">Single-batch Processing
+            Steps</h1>
+        <h2 id="section:gcms_input">Input</h2>
+        <figure id="fig:gcms_input">
+            <img src="img/user-manual/fig/gcms/input.png" style="width:80.0%"/>
+            <figcaption>Input Step visualization.</figcaption>
+        </figure>
+        <p>Visualization of the <em>Input</em> step is shown on Figure <a data-reference="fig:gcms_input"
+                                                                          data-reference-type="ref" href="#fig:gcms_input">4.1</a>.
+            The table in the top-left
+            corner displays all scans in a data file including the following
+            information:</p>
+        <ul>
+            <li><p>automatically generated scan name,</p></li>
+            <li><p>scan number,</p></li>
+            <li><p>can be either MS1 or MS2 (for MS/MS scans),</p></li>
+            <li><p>polarity of scans,</p></li>
+            <li><p>precursor m/z of MS/MS scans,</p></li>
+            <li><p>minimum and maximum m/z values in the scan,</p></li>
+            <li><p>scan retention time (in minutes),</p></li>
+            <li><p>maximum intensity in the scan,</p></li>
+            <li><p>sample name and sample type,</p></li>
+            <li><p>sample metadata if provided.</p></li>
+        </ul>
+        <p>Users can click on a scan in this table to see its details
+            (bottom-left corner) and its raw spectrum plot (top-right corner). In
+            the bottom-right corner, there are three tabs with the base-ion
+            chromatogram, total-ion chromatogram, and "Retention time vs. m/z"
+            plots. In the base-ion chromatogram plot, intensity at each retention
+            time is equal to the maximum intensity of the scan at that retention
+            time. In the total-ion chromatogram plot, intensity at each retention
+            time is equal to the total intensity of the scan at that retention time.
+            Finally, in the "Retention time vs. m/z" plot, each dot represents pair
+            (ret time, m/z), and its color ranges from white to blue, based on its
+            intensity. In all three plots, the m/z and retention time ranges can
+            changes by using the filter button. Finally, additional samples can be
+            added to the plots by clicking the “+” button. Additionally,
+            double-clicking anywhere in these plots will automatically highlight the
+            scan with the corresponding retention time in the table.</p>
+        <p>The <em>Input</em> step doesn’t have any user-defined parameters. So,
+            clicking on the <em>Input Settings</em> button will results in opening
+            the Settings window with no workflow step selected. Also, unlike other
+            workflow steps, the <em>Input</em> step doesn’t have any export
+            options.</p>
+        <h2 id="section:gcms_chromatogram_builder">Chromatogram Builder</h2>
+        <figure id="fig:gcms_chromatography">
+            <img src="img/user-manual/fig/gcms/chromatogram_builder.png" style="width:80.0%"/>
+            <figcaption>Chromatography Builder Step visualization.</figcaption>
+        </figure>
+        <p>This step builds extracted-ion chromatograms (EICs) for the masses
+            that are present in the raw data continuously over a certain duration of
+            time. Users can adjust parameters of the Chromatogram Builder either by
+            clicking button <em>Chromatogram Builder Settings</em> or by selecting
+            menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>Minimum m/z difference of data points in consecutive scans in order
+                to be connected to the same chromatogram. Twice the <em>m/z
+                    tolerance</em> set by the user is the maximum width of a mass trace.</p>
+            <p>In the entire chromatogram, there must be at least this number of
+                sequential scans having points above the <em>Group intensity
+                    threshold</em> set by the user. The optimal value depends on the
+                chromatography system setup. The best way to set this parameter is by
+                studying the raw data and determining what is the typical time span of
+                chromatographic peaks.</p>
+            <p>See above.</p>
+            <p>There must be at least one point in the chromatogram that has an
+                intensity greater than or equal to this value.</p>
+        </div>
+        <p>The visualization of the <em>Chromatogram Builder</em> step consists
+            of four parts. The table in the top-left corner shows all built
+            chromatograms with their IDs, names, m/z values, retention times (i.e.
+            the retention time of the highest point in a chromatogram), heights,
+            areas, and sample names. A more detailed information is displayed in the
+            bottom-left corner for the currently selected chromatogram.</p>
+        <p>The figure at the top-right corner, shows the currently selected
+            chromatogram(s), and the figure at the bottom-right corner, shows the
+            shape of the selected chromatogram(s) in the <em>Retention time vs.
+                m/z</em> plane. The latter figure also displays the near-by raw data
+            points whose color depends on their intensities. This figure can be
+            useful to evaluate the quality of chromatogram. For instance, users can
+            select sort the chromatogram table by the m/z values and select two or
+            more close chromatogram to see how those chromatograms are built (see
+            Figure <a data-reference="fig:gcms_chromatograms" data-reference-type="ref"
+                      href="#fig:gcms_chromatograms">4.3</a>). If there is a
+            significant number of data points in between chromatograms, then some
+            chromatograms were missed and users may want to lower the intensity and
+            group size thresholds to build more chromatograms. If there are several
+            chromatograms built over the same cluster of data points, then users may
+            want to increase the m/z tolerance to build fewer chromatograms.</p>
+        <p>To make it easier for users to find chromatograms, there is a filter
+            at the top of the tab, where users can input an m/z range. After
+            providing m/z range, only chromatograms within that m/z range will be
+            shown in the table. In addition to the m/z range, filter also has fields
+            to input a retention time range and display only the features in MS/MS.
+            This two options will be used in other visualizations (GC-MS and
+            LC-MS/MS), but they are not applicable in the case of the Chromatogram
+            Builder step. So, user can just ignore them for now.</p>
+        <figure id="fig:gcms_chromatograms">
+            <img src="img/user-manual/fig/gcms/chromatograms.png" style="width:80.0%"/>
+            <figcaption>Three chromatograms in the <em>Retention time vs. m/z</em>
+                plane.
+            </figcaption>
+        </figure>
+        <h2 id="section:gcms_peak_detection">Peak Detection</h2>
+        <figure id="fig:gcms_peak_deteciton">
+            <img src="img/user-manual/fig/gcms/peak_detection.png" style="height:40.0%"/>
+            <figcaption>Peak Detection Step visualization.</figcaption>
+        </figure>
+        <p>Each EIC that has been constructed spans the entire duration of the
+            chromatography. <em>Peak Detection</em> step detects individual peaks in
+            those EICs. Users can adjust parameters of the Peak Detection either by
+            clicking button <em>Peak Detection Settings</em> or by selecting menu
+            <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>the minimum signal-to-noise ratio a peak must have to be considered
+                real. Values grater then or equal to 7 will work well and will only
+                detect a very small number of false positive peaks.</p>
+            <p>users can choose of two estimators of the signal-to-noise ratio:
+                <code>intensity_window</code> uses the peak height as the signal level
+                and the standard deviation of intensities around the peak as the noise
+                level; <code>wavelet_coefficient</code> uses the continuous wavelet
+                transform coefficients to estimate the signal and noise level. Analogous
+                approach is implemented in R-package <em>wmtsa</em>.</p>
+            <p>the smallest intensity a peak can have and be considered real.</p>
+            <p>minimum and maximum widths (in minutes) of a peak to be considered
+                real.</p>
+            <p>this coefficient is found by taking the inner product of the wavelet
+                at the best scale and the peak, and then dividing by the area under the
+                peak. Values around 100 work well for most data.</p>
+            <p>minimum and maximum widths (in minutes) of the wavelets used for
+                detecting peaks. The <em>Peak Detection</em> algorithm is highly
+                sensitive to the upper limit of the <em>RT wavelet range</em>. Also, the
+                <code>wavelet_coefficient</code> S/N estimator is sensitive to the lower
+                limit of the <em>RT wavelet range</em>.</p>
+        </div>
+        <p>The visualization of the <em>Peak Detection</em> step is similar to
+            the visualization of the <em>Chromatogram builder</em> step. See the
+            previous section for details.</p>
+        <h2 id="section:lcms_ms2_pairing">MS/MS Pairing (LC-MS)</h2>
+        <figure id="fig:lcms_ms2_pairing">
+            <img src="img/user-manual/fig/lcms/ms2_pairing.png" style="height:40.0%"/>
+            <figcaption>MS/MS Pairing Step visualization.</figcaption>
+        </figure>
+        <p>The <em>MS/MS Pairing</em> step finds the MS/MS spectra and pairs
+            them with the aligned components. For MS/MS spectra to be paired with a
+            component, they should satisfy two conditions: (<em>i</em>) the
+            precursor m/z value of an MS/MS spectrum should be contained in the
+            pseudo-spectrum of the component; (<em>ii</em>) the retention time of an
+            MS/MS spectrum should be within the half-height retention time range
+            (i.e. the range corresponding to the upper half of the elution profile)
+            of the component. Users can adjust parameters of the MS/MS Pairing step
+            either by clicking button <em>MS/MS Pairing Settings</em> or by
+            selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is used when matching the precursor m/z value of an MS/MS spectrum to
+                m/z values of the pseudo-spectrum of a component.</p>
+            <p>is used to filter out low-intensity MS/MS spectra. First all MS/MS
+                spectra that satisfy the precursor and retention time requirements are
+                assigned to a component. Then the standard deviation of their
+                intensities is calculated. Finally, if the intensity of an MS/MS
+                spectrum does not exceeds that standard deviated multiplied by the
+                <em>Intensity factor threshold</em>, then that MS/MS spectrum is removed
+                from the component. Users can use value 0 to keep all MS/MS spectra.</p>
+        </div>
+        <p>The visualization of the <em>MS/MS Pairing</em> step consists of four
+            parts (Figure <a data-reference="fig:lcms_ms2_pairing" data-reference-type="ref" href="#fig:lcms_ms2_pairing">4.5</a>).
+            In the top-left corner,
+            there located a table of components. Users can expand each component to
+            see the paired MS/MS spectra. The bottom-left corner contains a panel
+            with detailed information about the selected component or MS/MS
+            spectrum. The fields displayed on that panel change in accordance to
+            whether the selected element is a component or an MS/MS spectrum.</p>
+        <p>The top-right corner contains a figure that displays an elution
+            profiles of a component (blue curve) and its paired MS/MS spectra
+            (vertical lines). Users must select all MS/MS spectra in the component
+            table to display them on this figure. Finally, the figure in the
+            bottom-right corner displays the pseudo-spectrum of the selected
+            component.</p>
+        <h2 id="section:gcms_spectral_deconvolution">Spectral Deconvolution
+            (GC-MS)</h2>
+        <figure id="fig:gcms_spectral_deconvolution">
+            <img src="img/user-manual/fig/gcms/spectral_deconvolution.png" style="height:40.0%"/>
+            <figcaption>Spectral Deconvolution Step visualization.</figcaption>
+        </figure>
+        <p>Spectral Deconvolution finds the analytes that are present in a
+            sample and constructs their pure fragmentation mass spectra. Location of
+            analytes is performed in two steps. First, all peaks are assigned to
+            deconvolution windows based on their retention times. Then, in each
+            window, clusters of similar peaks are determined using the similarities
+            of the peak shapes. Then, a model peak is constructed for each cluster,
+            and all peaks are decomposed into a linear combination of the
+            constructed model peaks. Users can adjust parameters of the Spectral
+            Deconvolution either by clicking button <em>Spectral Deconvolution
+                Settings</em> or by selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the maximum length (in minutes) of clusters after the first
+                clustering step. This window width can be chosen based on the width of
+                detected peaks. Typically, value 0.2 works well in most cases.</p>
+            <p>is the smallest time-gap between any two analytes. The value of this
+                parameter should be a fraction of the average peak width. In our tests,
+                we use 0.04 minutes.</p>
+            <p>the smallest number of peaks in a single analyte. This parameter
+                depends on a dataset and the number of peaks detected by the previous
+                workflow steps. Typically, its value would range from 1 (if only a few
+                peaks are detected) to 10 or more (if the number of detected peaks is
+                large).</p>
+            <p>For a unit-mass-resolution data, where coeluting analytes may be
+                present, and a peak typically consists of a hundred or more points, this
+                parameter should be off. For high-mass-resolution data, where coeluting
+                compounds are rare and a peak consists of a few points, this parameter
+                can be turned on.</p>
+        </div>
+        <p>The visualization of the <em>Spectral Deconvolution</em> step
+            consists of four parts. In the upper-left and bottom-left corners are
+            located the table of components and a panel with detailed information
+            about the selected component, respectively. The figures on the right
+            plot the elution profiles and pure fragmentation mass spectra of one or
+            more components (colored curves) and the constituent peaks (grey). This
+            figures help evaluate how peaks are decomposed into linear combinations
+            of the model peaks. To do the later, users can sort the table of
+            components by the retention time and select two or more near-by
+            components. The figures will show the elution profiles of coeluting
+            components and their constructed pure fragmentation spectra (Figure <a data-reference="fig:gcmc_decomposition"
+                                                                                   data-reference-type="ref"
+                                                                                   href="#fig:gcmc_decomposition">4.7</a>).
+        </p>
+        <figure id="fig:gcmc_decomposition">
+            <img src="img/user-manual/fig/gcms/decomposition.png" style="height:40.0%"/>
+            <figcaption>Decomposition of peaks of two coeluting
+                components.
+            </figcaption>
+        </figure>
+        <h2 id="section:gcms_alignment">Alignment (GC-MS)</h2>
+        <figure id="fig:gcms_alignment">
+            <img src="img/user-manual/fig/gcms/alignment.png" style="height:40.0%"/>
+            <figcaption>Alignment Step visualization</figcaption>
+        </figure>
+        <p>The <em>Alignment</em> step uses uses similarity between constructed
+            mass spectra to find similar components across multiple samples. For
+            this reason, the alignment is performed <strong>after</strong> the
+            spectral deconvolution step. Users can adjust parameters of the
+            Alignment either by clicking button <em>Alignment Settings</em> or by
+            selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>takes values between 0 and 1 and equals to the minimum fraction of
+                samples containing aligned components. I.e. if similar components are
+                observed in the fraction of samples less than the <em>minimum sample
+                    frequency</em>, then those components are not aligned. If the sample
+                factors are provided than <em>minimum sample frequency</em> is the
+                minimum fraction of samples on one factor group.</p>
+            <p>is the maximum time-gap between similar components from different
+                samples.</p>
+            <p>takes values between 0 and 1. Similarity score between components in
+                different samples is determined as follows: <span class="math display">\[Score = w\cdot S_{time} + (1-w)\cdot
+    S_{spec},\]</span> where <span class="math inline">\(S_{time}\)</span>
+                is the relative retention time difference between two components and
+                <span class="math inline">\(S_{spec}\)</span> the spectral similarity
+                between two components. The score threshold defines the minimum
+                similarity score between two components to be aligned.</p>
+            <p>takes values between 0 and 1. This parameter is the coefficient <span class="math inline">\(w\)</span> in the
+                similarity score. If <span class="math inline">\(w=0\)</span>, then only the spectral similarity is
+                used for calculating the similarity of two components. If <span class="math inline">\(w=1\)</span>, then
+                only the retention time
+                difference is used for calculating the similarity of two components. If
+                <span class="math inline">\(w\)</span> is between 0 and 1, then a
+                weighted combination of the spectral similarity and the retention time
+                difference is used.</p>
+            <p>is used for matching masses in two mass spectra. This parameter may
+                affect the spectral similarity score.</p>
+        </div>
+        <p>The top-left corner of the visualization of the <em>Alignment</em>
+            step contains a table of aligned components. In addition to regular
+            table features, users can expand each component to see aligned
+            components from different samples. The figure in the top-right corner
+            displays the elution profiles of aligned components. Users can select
+            all aligned components from different samples to look at their elution
+            profiles together. The figure in the bottom-right corner displays the
+            retention time of the aligned components in the <em>Retention time vs.
+                Sample</em> plane. This figure also displays the maximum difference
+            between retention times of the aligned components. Finally, the
+            bottom-right figure displays intensities of aligned component from each
+            sample.</p>
+        <h2 id="section:lcms_alignment">Alignment (LC-MS)</h2>
+        <figure id="fig:lcms_alignment">
+            <figcaption>Alignment Step visualization</figcaption>
+        </figure>
+        <p>The <em>Alignment</em> step uses the retention time and m/z
+            similarity to find similar features across multiple samples. This step
+            is performed either right after the peak detection or after the MS/MS
+            pairing step. Users can adjust parameters of the Alignment either by
+            clicking button <em>Alignment Settings</em> or by selecting menu
+            <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>specifies the maximum retention time difference (in minutes) allowed
+                between aligned peaks.</p>
+            <p>determines the contribution of m/z (mass-to-charge ratio) similarity
+                to the alignment score.</p>
+            <p>determines the contribution of retention time similarity to the
+                alignment score.</p>
+            <p>specifies the maximum m/z difference (in ppm) allowed between aligned
+                peaks.</p>
+            <p>if true, the algorithm will keep the non-aligned peaks in the
+                results.</p>
+            <p>if true, the first pool sample is used as the reference for
+                alignment; otherwise, the largest sample file is used.</p>
+            <p>specifies the type of sample used as pool samples (e.g., "Pool",
+                "NIST", "QC", "Other").</p>
+            <p>if true, isotopes are removed at the end of the alignment.</p>
+        </div>
+        <p>The top-left corner of the visualization of the <em>Alignment</em>
+            step contains a table of aligned features. Clicking one or several
+            features in this table will will update the plots on the right. The
+            top-right corner contains three tabs: "Sample intensities",
+            "Chromatogram", and "MS/MS". The "Sample intensities" tab displays the
+            intensities of the selected features in each sample colored by the
+            sample type, the "Chromatogram" tab displays the elution profile of the
+            selected feature, and the "MS/MS" tab displays the MS/MS spectra paired
+            with the selected feature (if any). The bottom-right corner contains the
+            "Injection-vs-Retention Time" plot, where each dot represents an aligned
+            feature from a sample, and the shaded area represents the stand and end
+            of the retention time range of the selected feature in that sample. This
+            plot can be used to evaluate the retention time differences between
+            aligned features.</p>
+        <h2 id="section:background_removal">Background Removal</h2>
+        <p>The <em>Background Removal</em> step removes the background noise by
+            comparing intensities of each feature in the pool samples to the
+            intensities of that feature in the blank samples. Users can adjust
+            parameters of the Background Removal either by clicking button
+            <em>Background Removal Settings</em> or by selecting menu
+            <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the minimum ratio of the intensity of a feature in the pool
+                samples to the intensity of that feature in the blank samples. If the
+                ratio is less than the <em>Pool/Blank threshold</em>, then the feature
+                is considered as a background noise and is removed.</p>
+            <p>is the number of pool samples a feature must be present in to be
+                considered as a signal. If the feature is present in less than the
+                <em>Pool ratio</em> pool samples, then the feature is considered as a
+                background noise and is removed.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other").</p>
+        </div>
+        <p>The visualization of this step is the same as the visualization of
+            the <em>Alignment step (LC-MS)</em> (Fig. <a data-reference="fig:lcms_alignment" data-reference-type="ref"
+                                                         href="#fig:lcms_alignment">4.9</a>).
+            See the previous section for details.</p>
+        <h2 id="section:normalization">Normalization</h2>
+        <figure id="fig:normalization">
+            <figcaption>Normalization Step visualization.</figcaption>
+        </figure>
+        <p>The <em>Normalization</em> step scales the intensities and areas of
+            the features using one of the two methods:</p>
+        <div class="itemize*">
+            <p><span><strong>Total Area Normalization</strong></span> calculates the
+                total area of all features in each sample. Then, it scales the
+                intensities and areas of the features in a sample by dividing them by
+                the total area of that sample and multiplying by the average total area
+                in the pool samples.</p>
+            <p><span><strong>Robust Mean Normalization</strong></span> calculates
+                the robust mean of each sample by taking logarithm of the areas of all
+                features in that sample, removing the outliers identified by the Median
+                Absolute Deviation (MAD) method, calculating the mean of the remaining
+                values, and taking the exponent of that mean. Then, it scales the
+                intensities and areas of the features in a sample by dividing them by
+                the robust mean of that sample and multiplying by the average robust
+                mean in the pool samples.</p>
+        </div>
+        <p>Users can adjust parameters of the Normalization either by clicking
+            button <em>Normalization Settings</em> or by selecting menu
+            <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the method used for scaling the intensities and areas of the
+                features: “total-intensity” or “log-ratio”.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other"). This parameter can be set individually for this step, or
+                it can use the pool sample type set in the <em>General Parameters</em>
+                (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                href="#section:parameters_window">2.4</a>).</p>
+        </div>
+        <p>The top-left corner of the visualization of the
+            <em>Normalization</em> step contains a table of normalized features
+            (Fig. <a data-reference="fig:normalization" data-reference-type="ref" href="#fig:normalization">4.10</a>).
+            Clicking one or several
+            features in this table will will update the plots on the right. The
+            top-right corner displays the intensities of the selected features in
+            each sample colored by the sample type. The bottom-right corner shows
+            the normalization factor of the selected feature for each sample. The
+            normalization factors are colored by batch, sample type, or other
+            available metadata.</p>
+        <h2 id="section:pool_rsd_filter">Pool RSD Filter</h2>
+        <p>The <em>Pool RSD Filter</em> step removes features with a high
+            relative standard deviation (RSD) in the pool samples. Users can adjust
+            parameters of the Pool RSD Filter either by clicking button <em>Pool RSD
+                Filter Settings</em> or by selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the maximum relative standard deviation allowed for a feature to
+                be kept. If the relative standard deviation of a feature in the pool
+                samples is greater than the <em>Relative Standard Deviation
+                    Tolerance</em>, then that feature is removed.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other"). This parameter can be set individually for this step, or
+                it can use the pool sample type set in the <em>General Parameters</em>
+                (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                href="#section:parameters_window">2.4</a>).</p>
+        </div>
+        <p>The visualization of this step is the same as the visualization of
+            the <em>Alignment step (LC-MS)</em> (Fig. <a data-reference="fig:lcms_alignment" data-reference-type="ref"
+                                                         href="#fig:lcms_alignment">4.9</a>).
+            See the Alignment Step (LC-MS) section for details.</p>
+        <h1 id="chapter:multi-batch-processing-steps">Multi-batch Processing
+            Steps</h1>
+        <h2 id="section:multi_batch_alignment">Between-batch Alignment</h2>
+        <figure id="fig:batch_alignment">
+            <figcaption>Batch Alignment Step visualization.</figcaption>
+        </figure>
+        <p>Before this step, the features in each batch must be aligned first
+            with the single-batch alignment step (see Section <a data-reference="section:lcms_alignment"
+                                                                 data-reference-type="ref" href="#section:lcms_alignment">4.7</a>).
+            If desired, other
+            steps (e.g., the Background Removal) can be applied to each individual
+            batch. After single-batch processing is done, the <em>Between-batch
+                Alignment (LC-MS)</em> step aligns features across multiple batches
+            based on their m/z and retention time similarities.</p>
+        <p>The parameters of the Between-batch Alignment step are similar to the
+            parameters of the <em>Aliignment Step (LC-MS)</em> and can be adjusted
+            by clicking button <em>Batch Alignment Settings</em> or by selecting
+            menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the maximum retention time difference (in minutes) allowed between
+                aligned features.</p>
+            <p>determines the contribution of m/z (mass-to-charge ratio) similarity
+                to the alignment score.</p>
+            <p>determines the contribution of retention time similarity to the
+                alignment score.</p>
+            <p>specifies the maximum m/z difference allowed between aligned
+                features. This parameter can be specified in <em>ppm</em> or in
+                <em>Da</em>. This parameter can be set individually for this step, or it
+                can use the m/z tolerance set in the <em>General Parameters</em> (see
+                Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                           href="#section:parameters_window">2.4</a>).</p>
+            <p>if true, the algorithm will keep the unaligned peaks from each batch
+                in the results. Usually, this parameter must be set to <em>true</em>.
+                Otherwise, the algorithm will ignore all features that are not detected
+                in the initial (first) batch.</p>
+            <p>if true, isotopes are detected in each batch, and only monoisotopic
+                peaks are aligned.</p>
+            <p>is the minimum fraction of pool samples (across all batches) a
+                feature must be present in to be considered as a signal. If the feature
+                is present in less than the <em>Minimum fraction of pool samples</em>
+                pool samples, then the feature is considered as a background noise and
+                is removed.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other"). This parameter can be set individually for this step, or
+                it can use the pool sample type set in the <em>General Parameters</em>
+                (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                href="#section:parameters_window">2.4</a>).</p>
+        </div>
+        <p>The visualization of the <em>Between-batch Alignment</em> step is
+            similar to the visualization of the <em>Alignment step (LC-MS)</em>
+            (Fig. <a data-reference="fig:lcms_alignment" data-reference-type="ref" href="#fig:lcms_alignment">4.9</a>). See
+            the Alignment Step
+            (LC-MS) section for details.</p>
+        <h2 id="multi-batch-normalization">Multi-Batch Normalization</h2>
+        <p>This step is performed in the same way as the single-batch
+            <em>Normalization</em> step (see Section <a data-reference="section:normalization" data-reference-type="ref"
+                                                        href="#section:normalization">4.9</a>) with two changes: First,
+            the missing values in each batch are imputed with 10% of the average
+            minimum area across the pool samples in that batch. Second, the average
+            total area/robust mean is calculated across all pool samples from all
+            batches. See section <a data-reference="section:normalization" data-reference-type="ref"
+                                    href="#section:normalization">4.9</a>
+            for details.</p>
+        <h2 id="section:batch_effect_correction">Batch-effect Correction</h2>
+        <p>The <em>Batch-effect Correction</em> step removes the batch effects
+            from the data by following the Broadhurst et al. (2018) method. First,
+            the missting values in each batch are imputed with 10% of the average
+            minimum area across the pool sample in the batch (if it wasn’t already
+            done by the <em>Multi-Batch Normalization</em> step). Then, the
+            log-transform is applied to all area values from all samples. Next, the
+            batch-effect is removed by appying the following steps to each feature:
+            (1) the average area across all pool samples in each batch and the grand
+            average of the areas across all pool samples are calculated; (2) the
+            shift is calculated for each batch by subtracting the grand average area
+            from the batch-specific average area; and (3) the area values are
+            adjusted for each sample by subtracting the shift value from the
+            corresponding batch. Optionally, the data is transformed back to the
+            original scale by taking the exponent of the corrected areas.</p>
+        <p>The parameters of the Batch-effect Correction step can be adjusted by
+            clicking button <em>Batch-effect Correction Settings</em> or by
+            selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the minimum fraction of pool samples a feature must be present in
+                to be corrected by the batche-effect correction algorithm. If the
+                feature is present in less than the <em>Missing Pool Ratio</em> pool
+                samples, then the feature areas are not corrected.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other"). This parameter can be set individually for this step, or
+                it can use the pool sample type set in the <em>General Parameters</em>
+                (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                href="#section:parameters_window">2.4</a>).</p>
+            <p>if true, the data is kept in the log-transformed scale after the
+                batch-effect correction. If false, the data is transformed back to the
+                original scale.</p>
+        </div>
+        <p>The visualization of the <em>Batch-effect Correction</em> step is the
+            same as the visualization of the <em>Between-Batch Alignment</em> step
+            (Fig. <a data-reference="fig:batch_alignment" data-reference-type="ref" href="#fig:batch_alignment">5.1</a>).
+            See the Between-Batch
+            Alignment Step section for details.</p>
+        <h2 id="section:anova_batch_effect_correction">ANOVA Batch-effect
+            Correction</h2>
+        <p>The <em>ANOVA Batch-effect Correction</em> step is alternative to the
+            previous <em>Batch-effect Correction Step</em>. It removes the batch
+            effects from the data by removing the features with a significant batch
+            effect. The batch effect is estimated by performing a one-way ANOVA test
+            on the areas of each feature from the pool samples grouped by batch. The
+            features with p-values less than a thershold are removed from.</p>
+        <p>The parameters of the ANOVA Batch-effect Correction step can be
+            adjusted by clicking button <em>ANOVA Batch-effect Correction
+                Settings</em> or by selecting menu <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>is the maximum p-value allowed for a feature to be kept. If the
+                p-value of a feature is less than the <em>PValue cutoff</em>, then that
+                feature is removed.</p>
+            <p>is the type of samples used as pool samples (e.g., "Pool", "NIST",
+                "QC", "Other"). This parameter can be set individually for this step, or
+                it can use the pool sample type set in the <em>General Parameters</em>
+                (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                href="#section:parameters_window">2.4</a>).</p>
+        </div>
+        <p>The visualization of the <em>ANOVA Batch-effect Correction</em> step
+            is the same as the visualization of the <em>Between-Batch Alignment</em>
+            step (Fig. <a data-reference="fig:batch_alignment" data-reference-type="ref" href="#fig:batch_alignment">5.1</a>).
+            See the Between-Batch
+            Alignment Step section for details.</p>
+        <h2 id="section:multi_batch_pool_rsd_filter">Multi-batch Pool RSD
+            Filter</h2>
+        <p>The <em>Multi-batch Pool RSD Filter</em> step is similar to the
+            <em>Pool RSD Filter</em> step (see Section <a data-reference="section:pool_rsd_filter" data-reference-type="ref"
+                                                          href="#section:pool_rsd_filter">4.10</a>), but it removes
+            features with a high relative standard deviation (RSD) in the pool
+            samples across all batches. See the Pool RSD Filter section for
+            details.</p>
+        <h1 id="chapter:post-processing-steps">Post-processing Steps</h1>
+        <h2 id="section:anova_test">One-way ANOVA Test</h2>
+        <p>The <em>One-way ANOVA test</em> step performs a one-way ANOVA test on
+            the areas of each feature from the pool samples grouped by a factor
+            imported from the metadata. The p-values of the ANOVA test are
+            calculated for each feature and each factor. The features with p-values
+            less than a threshold are considered as significant.</p>
+        <p>This step doesn’t have any parameters to adjust.</p>
+        <h2 id="section:dimensionality_reduction">Dimenstionality Reduction</h2>
+        <p>The <em>Dimenstionality Reduction</em> step applies the Principal
+            Component Analysis (PCA), Partial-Least-Squares Discriminant Analysis
+            (PLS-DA), and Orthogonal Partial-Least-Squares Discriminant Analysis
+            (OPLS-DA) methods, and display results of each method. The PCA method is
+            used for unsupervised analysis, while the PLS-DA and OPLS-DA methods are
+            used for supervised analysis and require selecting the factor of
+            interest, imported from the metadata when the project is created.</p>
+        <h2 id="section:library_search">Library Search</h2>
+        <p>The <em>Library Search</em> step performs the library search for
+            detected feature through the ADAP-KDB web API. Users have to create an
+            account on the ADAP-KDB website in order to use this feature. Once the
+            account is created, enter your login and password information by going
+            to the menu <em>File/Preferences...</em>. You login information will be
+            stored on your local computer in the encrypted form.</p>
+        <p>The parameters of the Library Search step can be adjusted by clicking
+            button <em>Library Search Settings</em> or by selecting menu
+            <em>Run/Settings...</em>.</p>
+        <div class="itemize*">
+            <p>if true, the library search will be performed with determining the
+                ontology levels by matching the precursor m/z, retention time, and MS/MS
+                spectra similarity (LC-MS only). If false, the library search will be
+                performed based on the spectral similarity only (GC-MS) or precursor m/z
+                and MS/MS similarity (LC-MS).</p>
+            <p>is the minimum spectral similarity score on the scale 0—1000 required
+                for a compound to be considered as a match.</p>
+            <p>is the maximum retention index difference allowed between the
+                detected feature and the library compound.</p>
+            <p>is the preset of how the retention index should be used in the
+                library search. Users can select one of the following options: “Ignore
+                retention index”, “Penalize matches without retention index (Strong)”,
+                “Penalize matches without retention index (Average)”, “Penalize matches
+                without retention index (Weak)”, “Always match retention index”.</p>
+            <p>is the maximum m/z difference allowed between the detected feature
+                and the library compound. This parameter can be specified in
+                <em>ppm</em> or in <em>Da</em>. This parameter can be set individually
+                for this step, or it can use the m/z tolerance set in the <em>General
+                    Parameters</em> (see Section <a data-reference="section:parameters_window" data-reference-type="ref"
+                                                    href="#section:parameters_window">2.4</a>).</p>
+            <p>is the maximum number of library compounds that can be matched to a
+                single detected feature.</p>
+            <p>is the list of libraries to search in. Users can select one or more
+                libraries from the list of available libraries.</p>
+        </div>
+        <h1 id="chapter:advanced">Advanced Functionality</h1>
+        <h2 id="section:jars">Running individual steps in the command line</h2>
+        <p>ADAP-BIG workflow steps can be executed not only through the ADAP-BIG
+            GUI and Console applications, but also by running individual workflow
+            steps from the command line. In order to do it, users should have Java
+            9+ installed on their local machine and download the ADAP-BIG jar files
+            available at the <a href="https://github.com/ADAP-BIG/adap-big/releases">GitHub Release
+                page</a>.</p>
+        <p>Currently, ADAP-BIG include 11 jar files representing each ADAP-BIG
+            workflow step. Below, these jar files are listed together with their
+            command-line arguments:</p>
+        <ul>
+            <li><p><code>input.jar</code> imports raw data files into an ADAP-BIG
+                project.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–input</code> path to a raw data file;</p>
+                <p><code>–factors</code> (optional) path to a CSV file with factor
+                    values.</p></li>
+            <li><p><code>chromatogram-builder.jar</code> finds raw data points with
+                similar m/z and constructs extracted-ion chromatograms.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–filename</code> sample name (name of the corresponding raw
+                    data file).</p></li>
+            <li><p><code>peak-detection.jar</code> detects peaks in every
+                extracted-ion chromatogram.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–filename</code> sample name (name of the corresponding raw
+                    data file).</p></li>
+            <li><p><code>spectral-deconvolution.jar</code> forms components and
+                constructs their pure fragmentation mass spectra.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–filename</code> sample name (name of the corresponding raw
+                    data file).</p></li>
+            <li><p><code>simple-spectral-deconvolution.jar</code> groups similar
+                peaks into components and constructs their pseudo-spectra.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–filename</code> sample name (name of the corresponding raw
+                    data file).</p></li>
+            <li><p><code>alignment.jar</code> finds similar components across
+                samples and aligns them</p>
+                <p><code>–project</code> path to the project folder.</p></li>
+            <li><p><code>significance.jar</code> performs the one-way ANOVA test for
+                each aligned component with the factor groups specified during the raw
+                data import.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–type</code> types of features this module it applied to, can
+                    be one of <code>chromatogram</code>, <code>peak</code>,
+                    <code>component</code>, <code>aligned_component</code>;</p>
+                <p><code>–factor</code> (optional) name of the factor used to calculate
+                    the ANOVA test. If no factor is provided, then ANOVA is performed for
+                    all available factors.</p></li>
+            <li><p><code>adduct-search.jar</code></p>
+                <p>detects adducts by matching peaks of the pseudo-spectrum to a list of
+                    known adducts and calculates components’ masses.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–type</code> types of features this module it applied to, can
+                    be one of <code>chromatogram</code>, <code>peak</code>,
+                    <code>component</code>, <code>aligned_component</code>.</p></li>
+            <li><p><code>mass-search.jar</code></p>
+                <p>matches the computed masses to the <a
+                        href="https://www.metabolomicsworkbench.org/databases/refmet/index.php">RefMet</a>
+                    database.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–type</code> types of features this module it applied to, can
+                    be one of <code>chromatogram</code>, <code>peak</code>,
+                    <code>component</code>, <code>aligned_component</code>.</p></li>
+            <li><p><code>ms2-pairing.jar</code></p>
+                <p>pairs MS/MS spectra to the constructed components.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–type</code> types of features this module it applied to, can
+                    be one of <code>chromatogram</code>, <code>peak</code>,
+                    <code>component</code>, <code>aligned_component</code>.</p></li>
+            <li><p><code>output.jar</code></p>
+                <p>exports the processing results into CSV or MSP files.</p>
+                <p><code>–project</code> path to the project folder;</p>
+                <p><code>–filename</code> (optional) sample name (name of the
+                    corresponding raw data file). If not specified, then data for all
+                    samples will be exported;</p>
+                <p><code>–type</code> types of features this module it applied to, can
+                    be one of <code>chromatogram</code>, <code>peak</code>,
+                    <code>component</code>, <code>aligned_component</code>;</p>
+                <p><code>–output</code> name of the file to export data to, this file
+                    should have either .csv or .msp extension;</p>
+                <p><code>–outputlevel</code> (optional) can be either ms1 (for exporting
+                    MS1 spectra) or ms2 (for exporting MS/MS spectra).</p></li>
+        </ul>
+        <p>It should be noted that every jar file has a mandatory argument
+            <code>–project</code>, which specifies path to the project folder. That
+            folder should be already exist and contain file
+            <code>settings.xml</code> containing parameters of the workflow steps.
+            Users can create such file manually or export it from the ADAP-BIG
+            application.</p>
+        <p>Then, each jar file can be executed as following:</p>
+        <div class="center">
+            <p><code>java -jar input.jar –project PATH_TO_PROJECT –input RAW_DATA_FILE</code></p>
+        </div>
+        <p>where <code>java</code> is Java 9+ command, <code>input.jar</code>
+            path to an ADAP-BIG jar file, <code>PATH_TO_PROJECT</code> path to the
+            project folder, and <code>RAW_DATA_FILE</code> path to a raw data file
+            to be imported.</p>
+        <h2 id="section:workflow.xml">Editing the <code>workflow.xml</code>
+            file</h2>
+        <figure id="fig:workflow.xml">
+            <table>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span
+                                id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span
+                                class="fu">&lt;?xml</span><span class="ot"> version=</span><span
+                                class="st">"1.0"</span><span class="ot"> encoding=</span><span
+                                class="st">"utf-8"</span> <span class="fu">?&gt;</span></span>
+    <span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>&lt;<span class="kw">workflow</span>&gt;</span>
+    <span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.input.InputModule</span>&gt;</span>
+    <span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>        &lt;<span
+            class="kw">input</span>/&gt;</span>
+    <span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>        &lt;<span class="kw">factors</span>/&gt;</span>
+    <span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.input.InputModule</span>&gt;</span>
+    <span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a></span>
+    <span id="cb5-8"><a aria-hidden="true" href="#cb5-8" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.chromatogrambuilder.ChromatogramBuilderModule</span>&gt;</span>
+    <span id="cb5-9"><a aria-hidden="true" href="#cb5-9" tabindex="-1"></a>        &lt;<span class="kw">filename</span>/&gt;</span>
+    <span id="cb5-10"><a aria-hidden="true" href="#cb5-10" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.chromatogrambuilder.ChromatogramBuilderModule</span>&gt;</span>
+    <span id="cb5-11"><a aria-hidden="true" href="#cb5-11" tabindex="-1"></a></span>
+    <span id="cb5-12"><a aria-hidden="true" href="#cb5-12" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.peakdetection.PeakDetectorModule</span>&gt;</span>
+    <span id="cb5-13"><a aria-hidden="true" href="#cb5-13" tabindex="-1"></a>        &lt;<span class="kw">filename</span>/&gt;</span>
+    <span id="cb5-14"><a aria-hidden="true" href="#cb5-14" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.peakdetection.PeakDetectorModule</span>&gt;</span>
+    <span id="cb5-15"><a aria-hidden="true" href="#cb5-15" tabindex="-1"></a></span>
+    <span id="cb5-16"><a aria-hidden="true" href="#cb5-16" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.spectraldeconvolution.SpectralDeconvolutionModule</span>&gt;</span>
+    <span id="cb5-17"><a aria-hidden="true" href="#cb5-17" tabindex="-1"></a>        &lt;<span class="kw">filename</span>/&gt;</span>
+    <span id="cb5-18"><a aria-hidden="true" href="#cb5-18" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.spectraldeconvolution.SpectralDeconvolutionModule</span>&gt;</span>
+    <span id="cb5-19"><a aria-hidden="true" href="#cb5-19" tabindex="-1"></a></span>
+    <span id="cb5-20"><a aria-hidden="true" href="#cb5-20" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.alignment.AlignmentModule</span>/&gt;</span>
+    <span id="cb5-21"><a aria-hidden="true" href="#cb5-21" tabindex="-1"></a></span>
+    <span id="cb5-22"><a aria-hidden="true" href="#cb5-22" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.significance.SignificanceModule</span>&gt;</span>
+    <span id="cb5-23"><a aria-hidden="true" href="#cb5-23" tabindex="-1"></a>        &lt;<span class="kw">type</span><span
+            class="ot"> value=</span><span class="st">"aligned_component"</span>/&gt;</span>
+    <span id="cb5-24"><a aria-hidden="true" href="#cb5-24" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.significance.SignificanceModule</span>&gt;</span>
+    <span id="cb5-25"><a aria-hidden="true" href="#cb5-25" tabindex="-1"></a>&lt;/<span
+            class="kw">workflow</span>&gt;</span></code></pre>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <figcaption>Example of file <code>workflow.xml</code>.</figcaption>
+        </figure>
+        <p>Figure <a data-reference="fig:workflow.xml" data-reference-type="ref" href="#fig:workflow.xml">7.1</a> shows an
+            example of file
+            <code>workflow.xml</code> used by the ADAP-BIG application to store the
+            GC-MS and LC-MS workflows of processing raw data. However, users can
+            build custom processing workflows by creating their own
+            <code>workflow.xml</code> files.</p>
+        <p>The workflow description file should follow certain rules. First, it
+            must contain the root XML element called <code>&lt;workflow&gt;</code>.
+            Then, children of the <code>&lt;workflow&gt;</code> element must have
+            names matching the full class names of the Java classes of ADAP-BIG
+            workflow steps. These classes typically similar to the names of the jar
+            files of the corresponding workflow steps. See the class names in Figure
+            <a data-reference="fig:workflow.xml" data-reference-type="ref" href="#fig:workflow.xml">7.1</a> and the jar
+            files described in
+            Section <a data-reference="section:jars" data-reference-type="ref" href="#section:jars">7.1</a> for examples.
+        </p>
+        <p>In the workflow description file, users can specify the command-line
+            arguments listed in Section <a data-reference="section:jars" data-reference-type="ref"
+                                           href="#section:jars">7.1</a> for each
+            workflow step. However, there are some important differences between the
+            command-line arguments and their counterparts in the workflow
+            description file:</p>
+        <ul>
+            <li><p>command-line argument <code>–project</code> is not specified in
+                the file <code>workflow.txt</code> because it is added automatically by
+                the ADAP-BIG application prior to every execution of a data processing
+                workflow.</p></li>
+            <li><p>arguments <code>–input</code>, <code>–factors</code>, and
+                <code>–filename</code> correspond to self-closing XML elements
+                <code>&lt;input/&gt;</code>, <code>&lt;factors/&gt;</code>,
+                <code>&lt;filename/&gt;</code> with no content. Their values are
+                assigned by the ADAP-BIG application to the names of raw data files and
+                factors selected in the <em>New Project</em> window of the ADAP-BIG
+                application.</p></li>
+            <li><p>all other XML elements are converted into a command-line
+                arguments. ADAP-BIG application converts XML elements of the workflow
+                description file into command-line arguments as follows: element
+                <code>&lt;tag value="TAG_VALUE"&gt;</code> is converted into
+                command-line argument <code>–tag TAG_VALUE</code>.</p></li>
+        </ul>
+        <p>Below, we list several examples of command-line execution of workflow
+            steps and their counterparts in file <code>workflow.txt</code>.</p>
+        <h5 id="example-1.">Example 1.</h5>
+        <p>Command-line execution of the import of a raw data file</p>
+        <div class="center">
+            <p><code>java -jar significance.jar –project PATH_TO_PROJECT –input PATH_TO_FILE</code></p>
+        </div>
+        <p>corresponds to the following lines in the workflow description
+            file:</p>
+        <div class="center">
+            <table>
+                <tbody>
+                <tr>
+                    <td style="text-align: center;"><pre><code>&lt;org.dulab.adapbig.input.InputModule&gt;
+        &lt;input/&gt;
+    &lt;/org.dulab.adapbig.input.InputModule&gt;</code></pre>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 id="example-2.">Example 2.</h5>
+        <p>Command-line execution of the alignment step</p>
+        <div class="center">
+            <p><code>java -jar alignment.jar –project PATH_TO_PROJECT</code></p>
+        </div>
+        <p>corresponds to the following line in the workflow description
+            file:</p>
+        <div class="center">
+            <table>
+                <tbody>
+                <tr>
+                    <td style="text-align: center;">
+                        <pre><code>&lt;org.dulab.adapbig.alignment.AlignmentModule/&gt;</code></pre>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 id="example-3.">Example 3.</h5>
+        <p>Command-line execution of the one-way ANOVA test on all aligned
+            components</p>
+        <div class="center">
+            <p><code>java -jar significance.jar –project PATH_TO_PROJECT –type aligned_component</code></p>
+        </div>
+        <p>corresponds to the following lines in the workflow description
+            file:</p>
+        <div class="center">
+            <table>
+                <tbody>
+                <tr>
+                    <td style="text-align: center;"><pre><code>&lt;org.dulab.adapbig.significance.SignificanceModule&gt;
+        &lt;type value="aligned_component"/&gt;
+    &lt;/org.dulab.adapbig.significance.SignificanceModule&gt;</code></pre>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <h2 id="section:settings.xml">Editing the <code>settings.xml</code>
+            file</h2>
+        <figure id="fig:settings.xml">
+            <table>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">
+                        <div class="sourceCode" id="cb9"><pre class="sourceCode xml"><code class="sourceCode xml"><span
+                                id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span
+                                class="fu">&lt;?xml</span><span class="ot"> version=</span><span
+                                class="st">"1.0"</span><span class="ot"> encoding=</span><span
+                                class="st">"utf-8"</span> <span class="fu">?&gt;</span></span>
+    <span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a>&lt;<span class="kw">settings</span>&gt;</span>
+    <span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.input.InputModule</span>/&gt;</span>
+    <span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a></span>
+    <span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.chromatogrambuilder.ChromatogramBuilderModule</span>&gt;</span>
+    <span id="cb9-6"><a aria-hidden="true" href="#cb9-6" tabindex="-1"></a>        &lt;<span
+            class="kw">mz.tolerance</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.02"</span>/&gt;</span>
+    <span id="cb9-7"><a aria-hidden="true" href="#cb9-7" tabindex="-1"></a>        &lt;<span
+            class="kw">minimum.scan.span</span><span class="ot"> type=</span><span class="st">"int"</span><span class="ot"> value=</span><span
+            class="st">"4"</span>/&gt;</span>
+    <span id="cb9-8"><a aria-hidden="true" href="#cb9-8" tabindex="-1"></a>        &lt;<span
+            class="kw">intensity.thresh.2</span><span class="ot"> type=</span><span class="st">"double"</span><span
+            class="ot"> value=</span><span class="st">"1000.0"</span>/&gt;</span>
+    <span id="cb9-9"><a aria-hidden="true" href="#cb9-9" tabindex="-1"></a>        &lt;<span class="kw">min.intensity.for.start.chrom</span><span
+            class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"1000.0"</span>/&gt;</span>
+    <span id="cb9-10"><a aria-hidden="true" href="#cb9-10" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.chromatogrambuilder.ChromatogramBuilderModule</span>&gt;</span>
+    <span id="cb9-11"><a aria-hidden="true" href="#cb9-11" tabindex="-1"></a></span>
+    <span id="cb9-12"><a aria-hidden="true" href="#cb9-12" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.peakdetection.PeakDetectorModule</span>&gt;</span>
+    <span id="cb9-13"><a aria-hidden="true" href="#cb9-13" tabindex="-1"></a>        &lt;<span
+            class="kw">snr.threshold</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"10.0"</span>/&gt;</span>
+    <span id="cb9-14"><a aria-hidden="true" href="#cb9-14" tabindex="-1"></a>        &lt;<span
+            class="kw">snr.estimator</span><span class="ot"> type=</span><span class="st">"text"</span><span class="ot"> value=</span><span
+            class="st">"intensity_window"</span>/&gt;</span>
+    <span id="cb9-15"><a aria-hidden="true" href="#cb9-15" tabindex="-1"></a>        &lt;<span
+            class="kw">min.feature.height</span><span class="ot"> type=</span><span class="st">"double"</span><span
+            class="ot"> value=</span><span class="st">"1000.0"</span>/&gt;</span>
+    <span id="cb9-16"><a aria-hidden="true" href="#cb9-16" tabindex="-1"></a>        &lt;<span
+            class="kw">peak.width.range</span><span class="ot"> type=</span><span class="st">"double.range"</span><span
+            class="ot"> start=</span><span class="st">"0.02"</span><span class="ot"> end=</span><span
+            class="st">"1.0"</span>/&gt;</span>
+    <span id="cb9-17"><a aria-hidden="true" href="#cb9-17" tabindex="-1"></a>        &lt;<span class="kw">coef.area.ratio.tolerance</span><span
+            class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.0"</span>/&gt;</span>
+    <span id="cb9-18"><a aria-hidden="true" href="#cb9-18" tabindex="-1"></a>        &lt;<span
+            class="kw">cwt.ret.time.range</span><span class="ot"> type=</span><span class="st">"double.range"</span><span
+            class="ot"> start=</span><span class="st">"0.001"</span><span class="ot"> end=</span><span
+            class="st">"0.06"</span>/&gt;</span>
+    <span id="cb9-19"><a aria-hidden="true" href="#cb9-19" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.peakdetection.PeakDetectorModule</span>&gt;</span>
+    <span id="cb9-20"><a aria-hidden="true" href="#cb9-20" tabindex="-1"></a></span>
+    <span id="cb9-21"><a aria-hidden="true" href="#cb9-21" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.output.OutputModule</span>&gt;</span>
+    <span id="cb9-22"><a aria-hidden="true" href="#cb9-22" tabindex="-1"></a>        &lt;<span
+            class="kw">force.integer.mz</span><span class="ot"> type=</span><span class="st">"boolean"</span><span
+            class="ot"> value=</span><span class="st">"false"</span>/&gt;</span>
+    <span id="cb9-23"><a aria-hidden="true" href="#cb9-23" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.output.OutputModule</span>&gt;</span>
+    <span id="cb9-24"><a aria-hidden="true" href="#cb9-24" tabindex="-1"></a></span>
+    <span id="cb9-25"><a aria-hidden="true" href="#cb9-25" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.ms2pairing.PeakMs2PairingModule</span>&gt;</span>
+    <span id="cb9-26"><a aria-hidden="true" href="#cb9-26" tabindex="-1"></a>        &lt;<span
+            class="kw">mz.tolerance</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.01"</span>/&gt;</span>
+    <span id="cb9-27"><a aria-hidden="true" href="#cb9-27" tabindex="-1"></a>        &lt;<span class="kw">intensity.factor.threshold</span><span
+            class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"3.0"</span>/&gt;</span>
+    <span id="cb9-28"><a aria-hidden="true" href="#cb9-28" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.ms2pairing.PeakMs2PairingModule</span>&gt;</span>
+    <span id="cb9-29"><a aria-hidden="true" href="#cb9-29" tabindex="-1"></a></span>
+    <span id="cb9-30"><a aria-hidden="true" href="#cb9-30" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.spectraldeconvolution.SpectralDeconvolutionModule</span>&gt;</span>
+    <span id="cb9-31"><a aria-hidden="true" href="#cb9-31" tabindex="-1"></a>        &lt;<span
+            class="kw">pref.window.width</span><span class="ot"> type=</span><span class="st">"double"</span><span
+            class="ot"> value=</span><span class="st">"0.2"</span>/&gt;</span>
+    <span id="cb9-32"><a aria-hidden="true" href="#cb9-32" tabindex="-1"></a>        &lt;<span
+            class="kw">ret.time.tolerance</span><span class="ot"> type=</span><span class="st">"double"</span><span
+            class="ot"> value=</span><span class="st">"0.02"</span>/&gt;</span>
+    <span id="cb9-33"><a aria-hidden="true" href="#cb9-33" tabindex="-1"></a>        &lt;<span
+            class="kw">min.cluster.size</span><span class="ot"> type=</span><span class="st">"int"</span><span class="ot"> value=</span><span
+            class="st">"5"</span>/&gt;</span>
+    <span id="cb9-34"><a aria-hidden="true" href="#cb9-34" tabindex="-1"></a>        &lt;<span class="kw">adjust.apex.ret.times</span><span
+            class="ot"> type=</span><span class="st">"boolean"</span><span class="ot"> value=</span><span
+            class="st">"false"</span>/&gt;</span>
+    <span id="cb9-35"><a aria-hidden="true" href="#cb9-35" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.spectraldeconvolution.SpectralDeconvolutionModule</span>&gt;</span>
+    <span id="cb9-36"><a aria-hidden="true" href="#cb9-36" tabindex="-1"></a></span>
+    <span id="cb9-37"><a aria-hidden="true" href="#cb9-37" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.alignment.AlignmentModule</span>&gt;</span>
+    <span id="cb9-38"><a aria-hidden="true" href="#cb9-38" tabindex="-1"></a>        &lt;<span
+            class="kw">sample.count.ratio</span><span class="ot"> type=</span><span class="st">"double"</span><span
+            class="ot"> value=</span><span class="st">"0.5"</span>/&gt;</span>
+    <span id="cb9-39"><a aria-hidden="true" href="#cb9-39" tabindex="-1"></a>        &lt;<span
+            class="kw">ret.time.range</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.05"</span>/&gt;</span>
+    <span id="cb9-40"><a aria-hidden="true" href="#cb9-40" tabindex="-1"></a>        &lt;<span
+            class="kw">score.tolerance</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.75"</span>/&gt;</span>
+    <span id="cb9-41"><a aria-hidden="true" href="#cb9-41" tabindex="-1"></a>        &lt;<span
+            class="kw">score.weight</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.1"</span>/&gt;</span>
+    <span id="cb9-42"><a aria-hidden="true" href="#cb9-42" tabindex="-1"></a>        &lt;<span
+            class="kw">mz.tolerance</span><span class="ot"> type=</span><span class="st">"double"</span><span class="ot"> value=</span><span
+            class="st">"0.005"</span>/&gt;</span>
+    <span id="cb9-43"><a aria-hidden="true" href="#cb9-43" tabindex="-1"></a>    &lt;/<span class="kw">org.dulab.adapbig.alignment.AlignmentModule</span>&gt;</span>
+    <span id="cb9-44"><a aria-hidden="true" href="#cb9-44" tabindex="-1"></a></span>
+    <span id="cb9-45"><a aria-hidden="true" href="#cb9-45" tabindex="-1"></a>    &lt;<span class="kw">org.dulab.adapbig.significance.SignificanceModule</span>/&gt;</span>
+    <span id="cb9-46"><a aria-hidden="true" href="#cb9-46" tabindex="-1"></a>&lt;/<span
+            class="kw">settings</span>&gt;</span></code></pre>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <figcaption>Example of file <code>settings.xml</code>.</figcaption>
+        </figure>
+        <p>Figure <a data-reference="fig:settings.xml" data-reference-type="ref" href="#fig:settings.xml">7.2</a> shows an
+            example of file
+            <code>settings.xml</code> used by the ADAP-BIG application and by
+            individual jar files to store user-defined parameters of every workflow
+            step. Currently, users can choose between default and unit-mass preset
+            parameters. However, they can also create a custom settings file with
+            their own parameters.</p>
+        <p>The settings file should follow certain rules. First, it must contain
+            the root XML element called <code>&lt;settings&gt;</code>. Then,
+            children of the <code>settings&gt;</code> element must have names
+            matching the full names of the Java classes of ADAP-BIG workflow steps.
+            This rule should be followed in the file <code>workflow.xml</code> as
+            well. Next, the children of each workflow step in settings file is
+            converted into parameters of that workflow step as follows: XML
+            element</p>
+        <div class="center">
+            <p><code>&lt;name type="TYPE" value="VALUE"&gt;</code></p>
+        </div>
+        <p>is converted into a parameter with name, type, and value
+            corresponding to attributes <code>name</code>, <code>type</code>, and
+            <code>value</code>. The tag name <code>name</code> should match one of
+            the hard-coded parameters of the workflow step. The attribute
+            <code>type</code> should be one of <code>int</code>,
+            <code>double</code>, <code>text</code>, <code>boolean</code>. Finally,
+            the attribute <code>value</code> will be converted into either integer,
+            real number, boolean in accordance with the specified type.</p>
+        <p>Currently, there are two additional XML elements for representing a
+            user-defined parameter, that do not follow the above described rule.
+            First, it is possible to specify a range-of-values parameter by using
+            the pattern</p>
+        <div class="center">
+            <p><code>&lt;name type="double.range" start="START" end="END"&gt;</code></p>
+        </div>
+        <p>Second, users can provide a list of adducts for the adduct-search
+            step by using the following pattern:</p>
+        <div class="center">
+    <pre><code>&lt;adducts type="adduct.list"&gt;
+        &lt;adduct name="M+2H+Na" num.molecules="1" adduct.mass="25.0038" charge="3"
+                quasi.molecular.ion="false"/&gt;
+        &lt;adduct name="M+2N+H" num.molecules="1" adduct.mass="46.9857" charge="3"
+                quasi.molecular.ion="false"/&gt;
+        ...
+    &lt;/adducts&gt;</code></pre>
+        </div>
+        <p>Here, attribute <code>name</code> can take any value but is
+            preferably a user-friendly name of an adduct. Attributes
+            <code>num.molecules</code>, <code>adduct.mass</code>, and
+            <code>charge</code> correspond to variables <span class="math inline">\(n\)</span>, <span class="math inline">\(m\)</span>,
+            and <span class="math inline">\(q\)</span> defined in the formula <span class="math display">\[mz = \frac{n\cdot M - m}{q},\]</span>
+            where <span class="math inline">\(M\)</span> is the mass of the original molecule,
+            and <span class="math inline">\(mz\)</span> m/z value of the adduct.</p>
+        <p>Finally, every workflow step must have a corresponding segment in the
+            settings file. However, that segment may not have any parameters (see
+            <code>InputModule</code> and <code>SignificanceModule</code> in Figure
+            <a data-reference="fig:settings.xml" data-reference-type="ref" href="#fig:settings.xml">7.2</a>). In the latter
+            case, the
+            default parameters of that workflow step will be used.</p>
+    </main>
+</body>
+</html>
