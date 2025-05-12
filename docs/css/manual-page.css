@@ -4,6 +4,9 @@ html {
     background-color: #fdfdfd;
     scroll-behavior: smooth;
 }
+h1, h2 {
+    color: #267CB9;
+}
 #sidebar {
     position: sticky;
     top: 0;
@@ -82,6 +85,7 @@ body {
     overflow-wrap: break-word;
     text-rendering: optimizeLegibility;
     font-kerning: normal;
+    line-height: 1.6;
 }
 
 
